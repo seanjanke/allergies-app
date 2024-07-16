@@ -14,16 +14,35 @@ class FoodListTile extends StatelessWidget {
         color: neutral100,
         borderRadius: smallCirular,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            name,
-            style: Theme.of(context).textTheme.headlineSmall,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                smallGap,
+                ...(allergenes.map((allergy) => Text(allergy)).toList()),
+              ],
+            ),
           ),
-          smallGap,
-          ...(allergenes.map((allergy) => Text(allergy)).toList()),
+          Container(
+            padding: smallPadding,
+            decoration: BoxDecoration(
+              color: allergenes.isEmpty ? success500 : warning500,
+              borderRadius: smallCirular,
+            ),
+            child: Text(
+              allergenes.isEmpty ? "👍" : "👎",
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+          ),
         ],
       ),
     );

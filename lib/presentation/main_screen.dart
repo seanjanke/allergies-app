@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List screens = [
     ScannerScreen(),
-    HistoryScreen(),
+    //HistoryScreen(),
     AllergiesScreen(),
   ];
 
@@ -50,13 +50,13 @@ class _MainScreenState extends State<MainScreen> {
           unselectedLabelStyle: GoogleFonts.lexend(fontSize: 14),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code),
+              icon: Icon(Icons.qr_code_scanner),
               label: 'Scanner',
             ),
-            BottomNavigationBarItem(
+            /*BottomNavigationBarItem(
               icon: Icon(Icons.history),
               label: 'Verlauf',
-            ),
+            ),*/
             BottomNavigationBarItem(
               icon: Icon(Icons.back_hand_outlined),
               label: 'Allergien',

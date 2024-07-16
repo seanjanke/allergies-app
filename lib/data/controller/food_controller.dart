@@ -11,6 +11,13 @@ class FoodController extends GetxController {
 
   void addFood(Food food) {
     foodAlreadyExistant.value = false;
+
+    for (Allergy allgy in allergiesList) {
+      if (food.allergens.contains(allgy.allergy.name.toLowerCase())) {
+        print('allery found: ${allgy.allergy.name}');
+      }
+    }
+
     if (!foodsList.contains(food)) {
       foodsList.add(food);
     } else {
@@ -39,11 +46,10 @@ class FoodController extends GetxController {
     } else {}
   }
 
-   void addFoodFromBarcode(String barcode) async {
+  void addFoodFromBarcode(String barcode) async {
     OpenFoodFactsApi.fetchAndPrintProduct(barcode).then((food) {
       if (food != null) {
         addFood(food);
-        print('Added food: ${food.name}');
       } else {
         print('Food not found.');
       }

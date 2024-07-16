@@ -9,6 +9,7 @@ enum Allergies {
   fish,
   peanuts,
   sesame,
+  fructose,
 }
 
 class Allergy {
@@ -38,6 +39,8 @@ class Allergy {
         return 'Peanuts';
       case Allergies.sesame:
         return 'Sesame';
+      case Allergies.fructose:
+        return 'Fructose';
       default:
         return '';
     }
