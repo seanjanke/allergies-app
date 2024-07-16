@@ -3,6 +3,7 @@ import 'package:allergies/presentation/widgets/button.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 import '../../../core/theme/theme.dart';
 
@@ -30,21 +31,32 @@ class _ScannerScreenState extends State<ScannerScreen> {
               child: Button(
                 label: "Scan Food",
                 color: primary,
-                onTap: () {
-                  foodController.addFoodFromBarcode("8076802085738");
+                onTap: () async {
+                  var res = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SimpleBarcodeScannerPage(),
+                      ));
+                  setState(() {
+                    if (res is String) {
+                      foodController.addFoodFromBarcode(res);
+                    }
+                  });
                 },
               ),
             ),
             largeGap,
             Expanded(
-              child: ListView.builder(
-                itemCount: foodController.foodsList.length,
-                itemBuilder: (context, index) {
-                  return FoodListTile(
-                    name: foodController.foodsList[index].name.value,
-                    allergenes: foodController.foodsList[index].allergens,
-                  );
-                },
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: foodController.foodsList.length,
+                  itemBuilder: (context, index) {
+                    return FoodListTile(
+                      name: foodController.foodsList[index].name.value,
+                      allergenes: foodController.foodsList[index].allergens,
+                    );
+                  },
+                ),
               ),
             ),
           ],
