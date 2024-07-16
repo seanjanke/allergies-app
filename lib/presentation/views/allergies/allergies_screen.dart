@@ -1,3 +1,4 @@
+import 'package:allergies/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class AllergiesScreen extends StatelessWidget {
@@ -7,8 +8,11 @@ class AllergiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Allergies"),
+      body: SafeArea(
+        minimum: safeArea,
+        child: Center(
+          child: Text("Allergies"),
+        ),
       ),
     );
   }

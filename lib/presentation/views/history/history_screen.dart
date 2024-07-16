@@ -1,3 +1,4 @@
+import 'package:allergies/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -7,8 +8,11 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("History"),
+      body: SafeArea(
+        minimum: safeArea,
+        child: Center(
+          child: Text("History"),
+        ),
       ),
     );
   }

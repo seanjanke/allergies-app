@@ -1,0 +1,55 @@
+import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/presentation/widgets/button.dart';
+import 'package:allergies/presentation/widgets/food_list_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../core/theme/theme.dart';
+
+class ScannerScreen extends StatefulWidget {
+  static const routeName = 'scanner';
+  const ScannerScreen({super.key});
+
+  @override
+  State<ScannerScreen> createState() => _ScannerScreenState();
+}
+
+class _ScannerScreenState extends State<ScannerScreen> {
+  FoodController foodController = Get.put(FoodController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        minimum: safeArea,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Button(
+                label: "Scan Food",
+                color: primary,
+                onTap: () {
+                  foodController.addFoodFromBarcode("8076802085738");
+                },
+              ),
+            ),
+            largeGap,
+            Expanded(
+              child: ListView.builder(
+                itemCount: foodController.foodsList.length,
+                itemBuilder: (context, index) {
+                  return FoodListTile(
+                    name: foodController.foodsList[index].name.value,
+                    allergenes: foodController.foodsList[index].allergens,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

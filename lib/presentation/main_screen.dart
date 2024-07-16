@@ -1,7 +1,7 @@
 import 'package:allergies/core/theme/color_palette.dart';
-import 'package:allergies/view/allergies/allergies_screen.dart';
-import 'package:allergies/view/history/history_screen.dart';
-import 'package:allergies/view/scanner/scanner_screen.dart';
+import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
+import 'package:allergies/presentation/views/history/history_screen.dart';
+import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
