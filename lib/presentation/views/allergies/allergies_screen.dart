@@ -3,6 +3,7 @@ import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/presentation/widgets/allergies_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 class AllergiesScreen extends StatefulWidget {
@@ -15,6 +16,16 @@ class AllergiesScreen extends StatefulWidget {
 
 class _AllergiesScreenState extends State<AllergiesScreen> {
   FoodController foodController = Get.find();
+
+  void test() {
+    print('pressed');
+  }
+
+  @override
+  void initState() {
+    foodController.getAllergies();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +49,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                     foodController.addAllergy(
                       const Allergy(allergy: Allergies.lactose),
                     );
+                    foodController.getAllergies();
                   },
                   child: Container(
                     padding: smallPadding,
@@ -59,8 +71,31 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                 () => ListView.builder(
                   itemCount: foodController.allergiesList.length,
                   itemBuilder: (context, index) {
-                    return AllergiesListTile(
-                      name: foodController.allergiesList[index].name,
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      height: 80,
+                      child: Slidable(
+                        direction: Axis.horizontal,
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          extentRatio: 0.4,
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                foodController.removeAllergy(
+                                    foodController.allergiesList[index]);
+                              },
+                              backgroundColor: warning100,
+                              foregroundColor: warning500,
+                              icon: Icons.delete,
+                              borderRadius: smallCirular,
+                            )
+                          ],
+                        ),
+                        child: AllergiesListTile(
+                          name: foodController.allergiesList[index].name,
+                        ),
+                      ),
                     );
                   },
                 ),

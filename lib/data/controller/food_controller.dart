@@ -87,16 +87,63 @@ class FoodController extends GetxController {
   void addAllergy(Allergy allergy) {
     allergyAlreadyExistant.value = false;
     if (!allergiesList.contains(allergy)) {
-      allergiesList.add(allergy);
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId.value)
+          .collection('allergies')
+          .add({
+        'name': allergy.name,
+      });
     } else {
       allergyAlreadyExistant.value = true;
     }
   }
 
-  void removeAllergy(Allergy allergy) {
-    if (allergiesList.contains(allergy)) {
-      allergiesList.remove(allergy);
-    } else {}
+  void removeAllergy(Allergy allergy) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId.value)
+        .collection('allergies')
+        .where('name', isEqualTo: allergy.name)
+        .get();
+
+    for (DocumentSnapshot doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+
+    getAllergies();
+  }
+
+  void getAllergies() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId.value)
+          .collection('allergies')
+          .get();
+
+      allergiesList.clear();
+
+      for (QueryDocumentSnapshot doc in snapshot.docs) {
+        String allergyName = doc['name'].toLowerCase();
+
+        Allergies? allergyEnum = Allergies.values.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == allergyName,
+        );
+
+        if (allergyEnum != null) {
+          allergiesList.add(
+            Allergy(
+              allergy: allergyEnum,
+            ),
+          );
+        } else {
+          print("Allergy not found for name: $allergyName");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void addFoodFromBarcode(String barcode) async {

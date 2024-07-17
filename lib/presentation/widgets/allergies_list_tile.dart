@@ -8,15 +8,22 @@ class AllergiesListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: largePadding,
+      padding: const EdgeInsets.only(left: 20),
+      width: double.infinity,
+      height: 80,
       decoration: BoxDecoration(
         color: neutral100,
         borderRadius: smallCirular,
       ),
-      child: Text(
-        name,
-        style: Theme.of(context).textTheme.headlineSmall,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            name,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+        ],
       ),
     );
   }
