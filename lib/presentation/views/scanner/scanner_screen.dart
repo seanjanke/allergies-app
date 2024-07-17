@@ -1,4 +1,5 @@
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/models/food.dart';
 import 'package:allergies/presentation/widgets/button.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,23 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   });
                 },
               ),
+            ),
+            large2Gap,
+            IconButton(
+              onPressed: () {
+                try {
+                  foodController.addFood(Food(
+                    name: RxString("Banane"),
+                    allergens: [
+                      'Wheat',
+                      'Soy',
+                    ],
+                  ));
+                } catch (e) {
+                  print(e.toString());
+                }
+              },
+              icon: Icon(Icons.abc),
             ),
             largeGap,
             Expanded(

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258655523295",
+    "project_id": "allergies-22683",
+    "storage_bucket": "allergies-22683.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258655523295:android:48bfb7ec2c0ee7a857b46a",
+        "android_client_info": {
+          "package_name": "com.example.allergies"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsUITpCffM2vN99h0fNBiA_S7XKCR3xBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

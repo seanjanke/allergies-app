@@ -1,6 +1,7 @@
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
 import 'package:allergies/data/services/food_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class FoodController extends GetxController {
@@ -9,17 +10,33 @@ class FoodController extends GetxController {
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
 
-  void addFood(Food food) {
+  void addFood(Food food) async {
     foodAlreadyExistant.value = false;
 
     for (Allergy allgy in allergiesList) {
       if (food.allergens.contains(allgy.allergy.name.toLowerCase())) {
-        print('allery found: ${allgy.allergy.name}');
+        print('allergy found: ${allgy.allergy.name}');
       }
     }
 
     if (!foodsList.contains(food)) {
       foodsList.add(food);
+      DocumentReference docRef =
+          await FirebaseFirestore.instance.collection('foods').add({
+        'id': '',
+        'name': food.name,
+      });
+
+      docRef.update({'id': docRef.id});
+
+      for (Allergy allegy in allergiesList) {
+        if (food.allergens.contains(allegy.allergy.name.toLowerCase())) {
+          docRef.collection('allergies').doc(allegy.allergy.name).set({
+            'id': '',
+            'name': allegy.allergy.name,
+          });
+        }
+      }
     } else {
       foodAlreadyExistant.value = true;
     }
