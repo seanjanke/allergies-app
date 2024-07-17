@@ -9,7 +9,8 @@ class FoodListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: largePadding,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: mediumPadding,
       decoration: BoxDecoration(
         color: neutral100,
         borderRadius: smallCirular,

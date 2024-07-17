@@ -24,18 +24,17 @@ class FoodController extends GetxController {
       DocumentReference docRef =
           await FirebaseFirestore.instance.collection('foods').add({
         'id': '',
-        'name': food.name,
+        'name': food.name.value,
+        'timestamp': FieldValue.serverTimestamp(),
       });
 
       docRef.update({'id': docRef.id});
 
-      for (Allergy allegy in allergiesList) {
-        if (food.allergens.contains(allegy.allergy.name.toLowerCase())) {
-          docRef.collection('allergies').doc(allegy.allergy.name).set({
-            'id': '',
-            'name': allegy.allergy.name,
-          });
-        }
+      for (String allergy in food.allergens) {
+        docRef.collection('allergies').doc(allergy).set({
+          'id': '',
+          'name': allergy,
+        });
       }
     } else {
       foodAlreadyExistant.value = true;

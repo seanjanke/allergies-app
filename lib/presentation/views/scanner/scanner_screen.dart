@@ -51,23 +51,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 },
               ),
             ),
-            large2Gap,
-            IconButton(
-              onPressed: () {
-                try {
-                  foodController.addFood(Food(
-                    name: RxString("Banane"),
-                    allergens: [
-                      'Wheat',
-                      'Soy',
-                    ],
-                  ));
-                } catch (e) {
-                  print(e.toString());
-                }
-              },
-              icon: Icon(Icons.abc),
-            ),
             largeGap,
             Expanded(
               child: Obx(
