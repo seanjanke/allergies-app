@@ -1,9 +1,11 @@
 import 'package:allergies/core/theme/color_palette.dart';
+import 'package:allergies/core/theme/scaling_system.dart';
+import 'package:allergies/data/models/bottom_nav_item.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
-import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:gap/gap.dart';
+import 'package:rive/rive.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';
@@ -15,6 +17,37 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int selectedIndex = 0;
+
+  List<SMIBool> riveIconInputs = [];
+
+  void animateIcon(int index) {
+    bool currentValue = riveIconInputs[index].value;
+
+    if (currentValue == false) {
+      riveIconInputs[index].change(true);
+      if (index == 0) {
+        riveIconInputs[1].change(false);
+        Future.delayed(const Duration(milliseconds: 2650), () {
+          riveIconInputs[index].change(false);
+        });
+      }
+    } else {
+      riveIconInputs[index].change(false);
+    }
+  }
+
+  void onInit(Artboard artboard) {
+    StateMachineController? controller =
+        StateMachineController.fromArtboard(artboard, "State Machine 1");
+
+    artboard.addController(controller!);
+
+    riveIconInputs.add(controller.findInput<bool>('Active') as SMIBool);
+
+    for (SMIBool icon in riveIconInputs) {
+      icon.change(false);
+    }
+  }
 
   static const List screens = [
     ScannerScreen(),
@@ -34,36 +67,60 @@ class _MainScreenState extends State<MainScreen> {
       body: Center(
         child: screens.elementAt(selectedIndex),
       ),
-      bottomNavigationBar: Theme(
-        data: ThemeData(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(
+          bottom: 48,
+          top: 20,
+          left: 20,
+          right: 20,
         ),
-        child: BottomNavigationBar(
-          backgroundColor: white,
-          selectedItemColor: primary,
-          unselectedItemColor: neutral400,
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          selectedLabelStyle: GoogleFonts.lexend(fontSize: 14),
-          unselectedLabelStyle: GoogleFonts.lexend(fontSize: 14),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_scanner),
-              label: 'Scanner',
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: smallCirular,
+          border: const Border.fromBorderSide(
+            BorderSide(
+              color: neutral100,
+              width: 1,
             ),
-            /*BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: 'Verlauf',
-            ),*/
-            BottomNavigationBarItem(
-              icon: Icon(Icons.back_hand_outlined),
-              label: 'Allergien',
-            ),
-          ],
-          currentIndex: selectedIndex,
-          onTap: onItemTapped,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(
+            bottomNavItems.length,
+            (index) {
+              final riveIcon = bottomNavItems[index].rive;
+              return GestureDetector(
+                onTap: () {
+                  onItemTapped(index);
+                  animateIcon(index);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: RiveAnimation.asset(
+                        riveIcon.src,
+                        artboard: riveIcon.artboard,
+                        onInit: onInit,
+                      ),
+                    ),
+                    const Gap(6),
+                    Text(
+                      bottomNavItems[index].title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: black),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

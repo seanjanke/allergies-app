@@ -9,7 +9,7 @@ class NavItemModel {
 
 List<NavItemModel> bottomNavItems = [
   NavItemModel(
-    title: "Scan 1",
+    title: "Scan",
     rive: RiveModel(
       src: "assets/animations/allergiesapp.riv",
       artboard: "Scan",
@@ -17,10 +17,10 @@ List<NavItemModel> bottomNavItems = [
     ),
   ),
   NavItemModel(
-    title: "Scan 2",
+    title: "Allergien",
     rive: RiveModel(
-      src: "assets/animations/allergiesapp.riv",
-      artboard: "Scan",
+      src: "assets/animations/document_icon.riv",
+      artboard: "Document",
       stateMachineName: "State Machine 1",
     ),
   ),
