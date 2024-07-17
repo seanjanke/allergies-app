@@ -44,9 +44,9 @@ class OpenFoodFactsApi {
           allergies = List<String>.from(productInfo['allergens_tags']);
         }
 
-        print("allergies: ");
+        //print("allergies: ");
         for (String allergyName in allergies) {
-          print(allergyName);
+          //print(allergyName);
         }
 
         List<String> allergiesList = [];
@@ -56,7 +56,7 @@ class OpenFoodFactsApi {
               print("allergy found: ${allergy.name.toLowerCase()}");
               allergiesList.add(allergy.name.capitalizeFirst!);
             } else {
-              print("${allergy.name.toLowerCase()} is not included");
+              // print("${allergy.name.toLowerCase()} is not included");
             }
           }
         }

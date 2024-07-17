@@ -33,6 +33,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 label: "Scan Food",
                 color: primary,
                 onTap: () async {
+                  foodController.addFoodFromBarcode("4066447468342");
+
+                  /*
                   var res = await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -47,7 +50,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     if (res is String) {
                       foodController.addFoodFromBarcode(res);
                     }
-                  });
+                  });*/
                 },
               ),
             ),

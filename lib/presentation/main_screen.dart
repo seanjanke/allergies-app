@@ -1,6 +1,6 @@
 import 'package:allergies/core/theme/color_palette.dart';
 import 'package:allergies/core/theme/scaling_system.dart';
-import 'package:allergies/data/models/bottom_nav_item.dart';
+import 'package:allergies/presentation/widgets/bottom_nav_item.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';

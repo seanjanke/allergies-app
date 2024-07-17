@@ -3,12 +3,34 @@ import 'package:allergies/data/models/food.dart';
 import 'package:allergies/data/services/food_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FoodController extends GetxController {
+  RxString userId = "".obs;
   RxList<Food> foodsList = <Food>[].obs;
   RxList<Allergy> allergiesList = <Allergy>[].obs;
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
+
+  @override
+  void onInit() {
+    getUserId();
+    super.onInit();
+  }
+
+  void setUserId(String newUserId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId.value = newUserId;
+
+    await prefs.setString('userId', newUserId);
+  }
+
+  void getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userIdPrefs = prefs.getString('userId') ?? '';
+    userId.value = userIdPrefs;
+    print("got user id from shared prefs: $userId");
+  }
 
   void addFood(Food food) async {
     foodAlreadyExistant.value = false;
@@ -19,32 +41,47 @@ class FoodController extends GetxController {
       }
     }
 
-    if (!foodsList.contains(food)) {
-      foodsList.add(food);
-      DocumentReference docRef =
-          await FirebaseFirestore.instance.collection('foods').add({
-        'id': '',
-        'name': food.name.value,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
+    if (userId.value.isEmpty) {
+      DocumentReference docRefUser = await FirebaseFirestore.instance
+          .collection('users')
+          .add({'userId': ''});
+      docRefUser.update({'userId': docRefUser.id});
 
-      docRef.update({'id': docRef.id});
-
-      for (String allergy in food.allergens) {
-        docRef.collection('allergies').doc(allergy).set({
-          'id': '',
-          'name': allergy,
-        });
-      }
-    } else {
-      foodAlreadyExistant.value = true;
+      setUserId(docRefUser.id);
     }
-  }
 
-  void removeFood(Food food) {
-    if (foodsList.contains(food)) {
-      foodsList.remove(food);
-    } else {}
+    print('d');
+
+    print("foodlist:");
+    for (Food item in foodsList) {
+      print(item.name.value);
+    }
+
+    print('foodslist lenght before: ${foodsList.length}');
+    foodsList.add(food);
+    print('foodslist lenght after: ${foodsList.length}');
+    DocumentReference docRef = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId.value)
+        .collection('foods')
+        .add({
+      'id': 'id',
+      'name': food.name.value,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    print('g');
+
+    docRef.update({'id': docRef.id});
+
+    print('h');
+
+    for (String allergy in food.allergens) {
+      print('i');
+      docRef.collection('allergies').doc(allergy).set({
+        'name': allergy,
+      });
+    }
   }
 
   void addAllergy(Allergy allergy) {
