@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:allergies/data/controller/food_controller.dart';
-import 'package:allergies/data/models/food.dart';
 import 'package:allergies/presentation/widgets/button.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../core/theme/theme.dart';
 
@@ -19,58 +20,79 @@ class ScannerScreen extends StatefulWidget {
 class _ScannerScreenState extends State<ScannerScreen> {
   FoodController foodController = Get.put(FoodController());
 
+  final qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController? qrViewController;
+
+  @override
+  void dispose() {
+    qrViewController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void reassemble() async {
+    super.reassemble();
+
+    if (Platform.isAndroid) {
+      await qrViewController!.pauseCamera();
+    }
+    qrViewController!.resumeCamera();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        minimum: safeArea,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Button(
-                label: "Scan Food",
-                color: primary,
-                onTap: () async {
-                  foodController.addFoodFromBarcode("4066447468342");
-
-                  /*
-                  var res = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SimpleBarcodeScannerPage(
-                        lineColor: "#ffffff",
-                        cancelButtonText: "Abbrechen",
-                        isShowFlashIcon: true,
-                      ),
-                    ),
-                  );
-                  setState(() {
-                    if (res is String) {
-                      foodController.addFoodFromBarcode(res);
-                    }
-                  });*/
-                },
-              ),
-            ),
-            largeGap,
-            Expanded(
-              child: Obx(
-                () => ListView.builder(
-                  itemCount: foodController.foodsList.length,
-                  itemBuilder: (context, index) {
-                    return FoodListTile(
-                      name: foodController.foodsList[index].name.value,
-                      allergenes: foodController.foodsList[index].allergens,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          buildQRView(context),
+          Positioned(
+            top: 80,
+            child: buildText(),
+          ),
+        ],
       ),
     );
   }
+
+  Widget buildQRView(BuildContext context) => QRView(
+        key: qrKey,
+        onQRViewCreated: onQRViewCreated,
+        overlay: QrScannerOverlayShape(
+          cutOutSize: MediaQuery.of(context).size.width * 0.8,
+          borderWidth: 10.0,
+          borderLength: 20.0,
+          borderRadius: 10.0,
+          borderColor: primary,
+        ),
+        formatsAllowed: const [
+          BarcodeFormat.code39,
+          BarcodeFormat.code128,
+          BarcodeFormat.ean8,
+          BarcodeFormat.ean13,
+          BarcodeFormat.upcE,
+        ],
+      );
+
+  void onQRViewCreated(QRViewController qrViewController) {
+    this.qrViewController = qrViewController;
+    qrViewController.scannedDataStream.listen((qrData) async {
+      final String? qrCode = qrData.code;
+      foodController.addFoodFromBarcode(qrCode!);
+      qrViewController.dispose();
+    });
+  }
+
+  Widget buildText() => SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Center(
+          child: Text(
+            'Barcode scannen',
+            style: Theme.of(context)
+                .textTheme
+                .displaySmall!
+                .copyWith(color: Colors.white),
+          ),
+        ),
+      );
 }

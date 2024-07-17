@@ -1,5 +1,6 @@
 import 'package:allergies/core/theme/color_palette.dart';
 import 'package:allergies/core/theme/scaling_system.dart';
+import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/widgets/bottom_nav_item.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
@@ -26,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     if (currentValue == false) {
       riveIconInputs[index].change(true);
       if (index == 0) {
-        riveIconInputs[1].change(false);
+        riveIconInputs[2].change(false);
         Future.delayed(const Duration(milliseconds: 2650), () {
           riveIconInputs[index].change(false);
         });
@@ -51,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List screens = [
     ScannerScreen(),
-    //HistoryScreen(),
+    HistoryScreen(),
     AllergiesScreen(),
   ];
 

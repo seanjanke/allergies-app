@@ -17,6 +17,14 @@ List<NavItemModel> bottomNavItems = [
     ),
   ),
   NavItemModel(
+    title: "Verlauf",
+    rive: RiveModel(
+      src: "assets/animations/document_icon.riv",
+      artboard: "Document",
+      stateMachineName: "State Machine 1",
+    ),
+  ),
+  NavItemModel(
     title: "Allergien",
     rive: RiveModel(
       src: "assets/animations/document_icon.riv",
