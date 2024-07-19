@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:multi_split_view/multi_split_view.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../core/theme/theme.dart';
@@ -21,10 +23,33 @@ class _ScannerScreenState extends State<ScannerScreen> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? qrViewController;
 
+  final MultiSplitViewController _controller = MultiSplitViewController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final deviceHeight = MediaQuery.of(context).size.height;
+      _controller.areas = [
+        Area(size: deviceHeight * 0.8, min: deviceHeight * 0.5),
+        Area(size: deviceHeight * 0.2),
+      ];
+      _controller.addListener(_rebuild);
+    });
+    _controller.addListener(_rebuild);
+  }
+
   @override
   void dispose() {
     qrViewController?.dispose();
+    _controller.removeListener(_rebuild);
     super.dispose();
+  }
+
+  void _rebuild() {
+    setState(() {
+      // rebuild to update empty text and buttons
+    });
   }
 
   @override
@@ -40,37 +65,119 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          buildQRView(context),
-          Positioned(
-            top: 80,
-            child: buildText(),
-          ),
-        ],
+      backgroundColor: background,
+      body: SafeArea(
+        minimum: const EdgeInsets.only(top: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: MultiSplitViewTheme(
+                data: MultiSplitViewThemeData(
+                  dividerPainter: DividerPainters.grooved1(
+                    thickness: 12,
+                    highlightedThickness: 12,
+                    color: neutral300,
+                    highlightedColor: black,
+                    size: 40,
+                    highlightedSize: 60,
+                  ),
+                ),
+                child: MultiSplitView(
+                  axis: Axis.vertical,
+                  controller: _controller,
+                  pushDividers: false,
+                  builder: (BuildContext context, Area area) {
+                    if (area.index == 0) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: largeCirular,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: largeCirular,
+                                    color: background,
+                                  ),
+                                  width: MediaQuery.sizeOf(context).width - 20,
+                                  height: double.infinity,
+                                  child: buildQRView(context),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container(
+                        height: double.infinity,
+                        margin: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.only(
+                          top: 20,
+                          left: 10,
+                          right: 10,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        child: /*Center(
+                          child: Text(
+                            "Hier werden deine Scans angezeigt",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),*/
+                            const SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              FoodListTile(
+                                name: "name",
+                                allergenes: ["Nuts"],
+                                hasAllergies: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildQRView(BuildContext context) => QRView(
-        key: qrKey,
-        onQRViewCreated: onQRViewCreated,
-        overlay: QrScannerOverlayShape(
-          cutOutSize: MediaQuery.of(context).size.width * 0.8,
-          borderWidth: 10.0,
-          borderLength: 20.0,
-          borderRadius: 10.0,
-          borderColor: primary,
-        ),
-        formatsAllowed: const [
-          BarcodeFormat.code39,
-          BarcodeFormat.code128,
-          BarcodeFormat.ean8,
-          BarcodeFormat.ean13,
-          BarcodeFormat.upcE,
-        ],
-      );
+  Widget buildQRView(BuildContext context) {
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+        cutOutSize: MediaQuery.of(context).size.width * 0.8,
+        borderWidth: 12,
+        borderLength: 24,
+        borderRadius: 12,
+        borderColor: primary,
+      ),
+      formatsAllowed: const [
+        BarcodeFormat.code39,
+        BarcodeFormat.code128,
+        BarcodeFormat.ean8,
+        BarcodeFormat.ean13,
+        BarcodeFormat.upcE,
+      ],
+    );
+  }
 
   void onQRViewCreated(QRViewController qrViewController) {
     this.qrViewController = qrViewController;
@@ -80,17 +187,4 @@ class _ScannerScreenState extends State<ScannerScreen> {
       qrViewController.dispose();
     });
   }
-
-  Widget buildText() => SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
-        child: Center(
-          child: Text(
-            'Barcode scannen',
-            style: Theme.of(context)
-                .textTheme
-                .displaySmall!
-                .copyWith(color: Colors.white),
-          ),
-        ),
-      );
 }
