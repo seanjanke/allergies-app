@@ -16,12 +16,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   FoodController foodController = Get.find();
 
   @override
-  void initState() {
-    //foodController.getFoods();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -40,53 +34,42 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             largeGap,
             Expanded(
-              child: FutureBuilder(
-                future: foodController.getFoods(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return Obx(() {
-                      if (foodController.foodsList.isEmpty) {
-                        return Center(
-                          child: Text(
-                            'Keine Scans vorhanden',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        );
-                      } else {
-                        return Obx(() {
-                          print(foodController.foodsList.length);
-                          return ListView.builder(
-                            itemCount: foodController.foodsList.length,
-                            itemBuilder: (context, index) {
-                              bool hasAllergies = foodController
-                                  .foodsList[index].allergens
-                                  .any((allergy) {
-                                return foodController.allergiesList.any(
-                                    (controllerAllergy) =>
-                                        controllerAllergy.name == allergy);
-                              });
-
-                              List<String> commonAllergens = foodController
-                                  .foodsList[index].allergens
-                                  .where((allergy) {
-                                return foodController.allergiesList.any(
-                                    (controllerAllergy) =>
-                                        controllerAllergy.name.toLowerCase() ==
-                                        allergy.toLowerCase());
-                              }).toList();
-                              return FoodListTile(
-                                name:
-                                    foodController.foodsList[index].name.value,
-                                allergenes: commonAllergens,
-                                hasAllergies: hasAllergies,
-                              );
-                            },
-                          );
-                        });
-                      }
-                    });
+              child: Obx(
+                () {
+                  if (foodController.foodsList.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'Keine Scans vorhanden',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    );
                   } else {
-                    return Container();
+                    return ListView.builder(
+                      itemCount: foodController.foodsList.length,
+                      itemBuilder: (context, index) {
+                        bool hasAllergies = foodController
+                            .foodsList[index].allergens
+                            .any((allergy) {
+                          return foodController.allergiesList.any(
+                              (controllerAllergy) =>
+                                  controllerAllergy.name == allergy);
+                        });
+
+                        List<String> commonAllergens = foodController
+                            .foodsList[index].allergens
+                            .where((allergy) {
+                          return foodController.allergiesList.any(
+                              (controllerAllergy) =>
+                                  controllerAllergy.name.toLowerCase() ==
+                                  allergy.toLowerCase());
+                        }).toList();
+                        return FoodListTile(
+                          name: foodController.foodsList[index].name.value,
+                          allergenes: commonAllergens,
+                          hasAllergies: hasAllergies,
+                        );
+                      },
+                    );
                   }
                 },
               ),

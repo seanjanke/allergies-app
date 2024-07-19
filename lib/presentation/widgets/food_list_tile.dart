@@ -39,13 +39,27 @@ class _FoodListTileState extends State<FoodListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name,
+                  widget.name.capitalize!,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 smallGap,
-                ...(widget.allergenes
-                    .map((allergy) => Text(allergy.capitalize!))
-                    .toList()),
+                if (widget.allergenes.isNotEmpty) ...[
+                  Row(
+                    children: [
+                      for (var i = 0; i < widget.allergenes.length; i++)
+                        Text(
+                          i < widget.allergenes.length - 1
+                              ? "${widget.allergenes[i].capitalize!}, "
+                              : widget.allergenes[i].capitalize!,
+                        ),
+                    ],
+                  ),
+                ] else ...[
+                  Text(
+                    "Keine Allergene",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
               ],
             ),
           ),

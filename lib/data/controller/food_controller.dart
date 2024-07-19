@@ -14,8 +14,14 @@ class FoodController extends GetxController {
 
   @override
   void onInit() {
-    getUserId();
     super.onInit();
+    initializeController();
+  }
+
+  Future<void> initializeController() async {
+    await getUserId();
+    await getAllergies();
+    await getFoods();
   }
 
   void setUserId(String newUserId) async {
@@ -25,11 +31,12 @@ class FoodController extends GetxController {
     await prefs.setString('userId', newUserId);
   }
 
-  void getUserId() async {
+  Future<void> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String userIdPrefs = prefs.getString('userId') ?? '';
     userId.value = userIdPrefs;
-    print("got user id from shared prefs: $userId");
+
+    print('got user id');
   }
 
   void addFood(Food food) async {
@@ -84,12 +91,8 @@ class FoodController extends GetxController {
 
       foodsList.clear();
 
-      print('food list lenght: ${foodsList.length}');
-
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         String foodName = doc['name'].toLowerCase();
-
-        print('name: $foodName');
 
         QuerySnapshot snapshot = await FirebaseFirestore.instance
             .collection('users')
@@ -106,8 +109,6 @@ class FoodController extends GetxController {
           allergenesList.add(allergyName);
         }
 
-        print('allergenes list after query: $allergenesList');
-
         foodsList.add(
           Food(
             name: RxString(foodName.capitalizeFirst!),
@@ -115,11 +116,11 @@ class FoodController extends GetxController {
           ),
         );
       }
-
-      print('food list lenght 2: ${foodsList.length}');
     } catch (e) {
       print(e.toString());
     }
+
+    print('got foods');
   }
 
   void addAllergy(Allergy allergy) {
@@ -182,6 +183,8 @@ class FoodController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
+
+    print('got allergies');
   }
 
   void addFoodFromBarcode(String barcode) async {

@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:allergies/data/controller/food_controller.dart';
-import 'package:allergies/presentation/widgets/button.dart';
-import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -18,7 +16,7 @@ class ScannerScreen extends StatefulWidget {
 }
 
 class _ScannerScreenState extends State<ScannerScreen> {
-  FoodController foodController = Get.put(FoodController());
+  FoodController foodController = Get.find();
 
   final qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? qrViewController;
