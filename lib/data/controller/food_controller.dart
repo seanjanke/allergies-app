@@ -50,12 +50,7 @@ class FoodController extends GetxController {
       setUserId(docRefUser.id);
     }
 
-    print('d');
-
-    print("foodlist:");
-    for (Food item in foodsList) {
-      print(item.name.value);
-    }
+    foodsList.clear();
 
     print('foodslist lenght before: ${foodsList.length}');
     foodsList.add(food);
@@ -70,17 +65,60 @@ class FoodController extends GetxController {
       'timestamp': FieldValue.serverTimestamp(),
     });
 
-    print('g');
-
     docRef.update({'id': docRef.id});
 
-    print('h');
-
     for (String allergy in food.allergens) {
-      print('i');
       docRef.collection('allergies').doc(allergy).set({
         'name': allergy,
       });
+    }
+  }
+
+  Future<void> getFoods() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId.value)
+          .collection('foods')
+          .get();
+
+      foodsList.clear();
+
+      print('food list lenght: ${foodsList.length}');
+
+      for (QueryDocumentSnapshot doc in snapshot.docs) {
+        String foodName = doc['name'].toLowerCase();
+
+        print('name: $foodName');
+
+        QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId.value)
+            .collection('foods')
+            .doc(doc.id)
+            .collection('allergies')
+            .get();
+
+        List<String> allergenesList = [];
+        for (QueryDocumentSnapshot doc in snapshot.docs) {
+          print("allergene found: ${doc['name'].toLowerCase()}");
+          String allergyName = doc['name'].toLowerCase();
+          allergenesList.add(allergyName);
+        }
+
+        print('allergenes list after query: $allergenesList');
+
+        foodsList.add(
+          Food(
+            name: RxString(foodName.capitalizeFirst!),
+            allergens: allergenesList,
+          ),
+        );
+      }
+
+      print('food list lenght 2: ${foodsList.length}');
+    } catch (e) {
+      print(e.toString());
     }
   }
 
@@ -114,7 +152,7 @@ class FoodController extends GetxController {
     getAllergies();
   }
 
-  void getAllergies() async {
+  Future<void> getAllergies() async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')

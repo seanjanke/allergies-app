@@ -1,10 +1,24 @@
 import 'package:allergies/core/theme/theme.dart';
+import 'package:allergies/data/controller/food_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class FoodListTile extends StatelessWidget {
+class FoodListTile extends StatefulWidget {
   final String name;
+  final bool hasAllergies;
   final List<String> allergenes;
-  const FoodListTile({super.key, required this.name, required this.allergenes});
+  const FoodListTile(
+      {super.key,
+      required this.name,
+      required this.allergenes,
+      required this.hasAllergies});
+
+  @override
+  State<FoodListTile> createState() => _FoodListTileState();
+}
+
+class _FoodListTileState extends State<FoodListTile> {
+  FoodController foodController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +39,24 @@ class FoodListTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  widget.name,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 smallGap,
-                ...(allergenes.map((allergy) => Text(allergy)).toList()),
+                ...(widget.allergenes
+                    .map((allergy) => Text(allergy.capitalize!))
+                    .toList()),
               ],
             ),
           ),
           Container(
             padding: smallPadding,
             decoration: BoxDecoration(
-              color: allergenes.isEmpty ? success500 : warning500,
+              color: widget.allergenes.isEmpty ? success500 : warning500,
               borderRadius: smallCirular,
             ),
             child: Text(
-              allergenes.isEmpty ? "👍" : "👎",
+              widget.allergenes.isEmpty ? "👍" : "👎",
               style: Theme.of(context).textTheme.displayMedium,
             ),
           ),

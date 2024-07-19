@@ -44,11 +44,6 @@ class OpenFoodFactsApi {
           allergies = List<String>.from(productInfo['allergens_tags']);
         }
 
-        //print("allergies: ");
-        for (String allergyName in allergies) {
-          //print(allergyName);
-        }
-
         List<String> allergiesList = [];
         for (String allergyItem in allergies) {
           for (Allergies allergy in Allergies.values) {
