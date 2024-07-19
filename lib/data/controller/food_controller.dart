@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FoodController extends GetxController {
   RxString userId = "".obs;
   RxList<Food> foodsList = <Food>[].obs;
+  RxList<Food> scanList = <Food>[].obs;
   RxList<Allergy> allergiesList = <Allergy>[].obs;
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
@@ -191,6 +192,7 @@ class FoodController extends GetxController {
     OpenFoodFactsApi.fetchAndPrintProduct(barcode).then((food) {
       if (food != null) {
         addFood(food);
+        scanList.add(food);
       } else {
         print('Food not found.');
       }

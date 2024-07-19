@@ -48,6 +48,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   flutter_slidable: ^3.1.1
   multi_split_view: ^3.2.2
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
   assets:
     - assets/animations/new_file.riv
     - assets/animations/allergiesapp.riv
+    - assets/animations/allergiesapp-8.riv
     - assets/animations/document_icon.riv
 
   # An image asset can refer to one or more resolution-specific "variants", see

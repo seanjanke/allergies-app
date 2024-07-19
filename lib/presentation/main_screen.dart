@@ -5,7 +5,6 @@ import 'package:allergies/presentation/widgets/bottom_nav_item.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:rive/rive.dart';
 
 class MainScreen extends StatefulWidget {
@@ -20,21 +19,34 @@ class _MainScreenState extends State<MainScreen> {
   int selectedIndex = 0;
 
   List<SMIBool> riveIconInputs = [];
+  List<SMIBool> doneInputs = [];
 
   void animateIcon(int index) {
     bool currentValue = riveIconInputs[index].value;
 
-    if (currentValue == false) {
-      riveIconInputs[index].change(true);
-      if (index == 0) {
-        riveIconInputs[2].change(false);
+    if (index == 0) {
+      if (currentValue == false) {
+        doneInputs.first.change(false);
+        riveIconInputs[index].change(true);
         Future.delayed(const Duration(milliseconds: 2650), () {
           riveIconInputs[index].change(false);
         });
       }
     } else {
-      riveIconInputs[index].change(false);
+      doneInputs.first.change(true);
     }
+
+    // if (currentValue == false) {
+    //   riveIconInputs[index].change(true);
+    //   if (index == 0) {
+    //     riveIconInputs[2].change(false);
+    //     Future.delayed(const Duration(milliseconds: 2650), () {
+    //       riveIconInputs[index].change(false);
+    //     });
+    //   }
+    // } else {
+    //   riveIconInputs[index].change(false);
+    // }
   }
 
   void onInit(Artboard artboard) {
@@ -44,6 +56,11 @@ class _MainScreenState extends State<MainScreen> {
     artboard.addController(controller!);
 
     riveIconInputs.add(controller.findInput<bool>('Active') as SMIBool);
+
+    if (artboard.name == "Scan") {
+      doneInputs.add(controller.findInput<bool>('Done') as SMIBool);
+      doneInputs.first.change(false);
+    }
 
     for (SMIBool icon in riveIconInputs) {
       icon.change(false);
@@ -70,10 +87,8 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(
-          bottom: 48,
-          top: 20,
-          left: 20,
-          right: 20,
+          bottom: 24,
+          top: 8,
         ),
         decoration: BoxDecoration(
           color: white,
@@ -86,38 +101,39 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(
             bottomNavItems.length,
             (index) {
               final riveIcon = bottomNavItems[index].rive;
-              return GestureDetector(
-                onTap: () {
-                  onItemTapped(index);
-                  animateIcon(index);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: RiveAnimation.asset(
-                        riveIcon.src,
-                        artboard: riveIcon.artboard,
-                        onInit: onInit,
+              return Expanded(
+                flex: 1,
+                child: GestureDetector(
+                  onTap: () {
+                    onItemTapped(index);
+                    animateIcon(index);
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: RiveAnimation.asset(
+                          riveIcon.src,
+                          artboard: riveIcon.artboard,
+                          onInit: onInit,
+                        ),
                       ),
-                    ),
-                    const Gap(6),
-                    Text(
-                      bottomNavItems[index].title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(color: black),
-                    ),
-                  ],
+                      Text(
+                        bottomNavItems[index].title,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: selectedIndex == index ? black : neutral300),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

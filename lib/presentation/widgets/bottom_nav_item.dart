@@ -11,7 +11,7 @@ List<NavItemModel> bottomNavItems = [
   NavItemModel(
     title: "Scan",
     rive: RiveModel(
-      src: "assets/animations/allergiesapp.riv",
+      src: "assets/animations/allergiesapp-8.riv",
       artboard: "Scan",
       stateMachineName: "State Machine 1",
     ),

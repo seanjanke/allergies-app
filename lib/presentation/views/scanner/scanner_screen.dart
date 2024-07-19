@@ -25,6 +25,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   final MultiSplitViewController _controller = MultiSplitViewController();
 
+  bool useBackCamera = true;
+
   @override
   void initState() {
     super.initState();
@@ -80,7 +82,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     highlightedThickness: 12,
                     color: neutral300,
                     highlightedColor: black,
-                    size: 40,
+                    size: 60,
                     highlightedSize: 60,
                   ),
                 ),
@@ -109,6 +111,42 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                 ),
                               ),
                             ),
+                            Positioned(
+                              top: 12,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.6),
+                                  borderRadius: largeCirular,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        qrViewController!.flipCamera();
+                                      },
+                                      child: Container(
+                                        padding: smallPadding,
+                                        child: const Icon(
+                                            Icons.flip_camera_ios_rounded),
+                                      ),
+                                    ),
+                                    smallGap,
+                                    GestureDetector(
+                                      onTap: () {
+                                        qrViewController!.toggleFlash();
+                                      },
+                                      child: Container(
+                                        padding: smallPadding,
+                                        child: const Icon(
+                                            Icons.flashlight_on_rounded),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       );
@@ -128,23 +166,60 @@ class _ScannerScreenState extends State<ScannerScreen> {
                             topRight: Radius.circular(16),
                           ),
                         ),
-                        child: /*Center(
-                          child: Text(
-                            "Hier werden deine Scans angezeigt",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),*/
-                            const SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              FoodListTile(
-                                name: "name",
-                                allergenes: ["Nuts"],
-                                hasAllergies: true,
-                              ),
-                            ],
-                          ),
+                        child: Obx(
+                          () => foodController.scanList.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "Hier werden deine Scans angezeigt",
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                )
+                              : SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: ListView.builder(
+                                          itemCount:
+                                              foodController.scanList.length,
+                                          itemBuilder: (context, index) {
+                                            bool hasAllergies = foodController
+                                                .scanList[index].allergens
+                                                .any(
+                                              (allergy) {
+                                                return foodController
+                                                    .allergiesList
+                                                    .any((controllerAllergy) =>
+                                                        controllerAllergy
+                                                            .name ==
+                                                        allergy);
+                                              },
+                                            );
+
+                                            List<String> commonAllergens =
+                                                foodController
+                                                    .scanList[index].allergens
+                                                    .where((allergy) {
+                                              return foodController
+                                                  .allergiesList
+                                                  .any((controllerAllergy) =>
+                                                      controllerAllergy.name
+                                                          .toLowerCase() ==
+                                                      allergy.toLowerCase());
+                                            }).toList();
+                                            return FoodListTile(
+                                              name: foodController
+                                                  .scanList[index].name.value,
+                                              allergenes: commonAllergens,
+                                              hasAllergies: hasAllergies,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ),
                       );
                     }
@@ -163,7 +238,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       key: qrKey,
       onQRViewCreated: onQRViewCreated,
       overlay: QrScannerOverlayShape(
-        cutOutSize: MediaQuery.of(context).size.width * 0.8,
+        cutOutSize: MediaQuery.of(context).size.width * 0.7,
         borderWidth: 12,
         borderLength: 24,
         borderRadius: 12,
