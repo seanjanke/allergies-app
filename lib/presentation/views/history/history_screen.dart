@@ -37,15 +37,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             largeGap,
             Expanded(
-              child: foodController.foodsList.isEmpty
-                  ? Center(
+              child: Obx(
+                () {
+                  if (foodController.foodsList.isEmpty) {
+                    return Center(
                       child: Text(
                         'Keine Scans vorhanden',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                    )
-                  : StickyGroupedListView<Food, DateTime>(
-                      elements: foodController.foodsList,
+                    );
+                  } else {
+                    return StickyGroupedListView<Food, DateTime>(
+                      elements: foodController.foodsList.value,
                       order: StickyGroupedListOrder.DESC,
                       groupBy: (Food food) => DateTime(
                         food.uploadTime!.year,
@@ -53,37 +56,34 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         food.uploadTime!.day,
                       ),
                       stickyHeaderBackgroundColor: background,
-                      groupSeparatorBuilder: (Food food) {
-                        DateTime now = DateTime.now();
-                        DateTime uploadDate = DateTime(
-                          food.uploadTime!.year,
-                          food.uploadTime!.month,
-                          food.uploadTime!.day,
-                        );
+                      groupSeparatorBuilder: (Food food) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          (() {
+                            DateTime now = DateTime.now();
+                            DateTime uploadDate = DateTime(
+                              food.uploadTime!.year,
+                              food.uploadTime!.month,
+                              food.uploadTime!.day,
+                            );
 
-                        String dateText;
-                        if (uploadDate ==
-                            DateTime(now.year, now.month, now.day)) {
-                          dateText = "Heute";
-                        } else if (uploadDate ==
-                            DateTime(now.year, now.month, now.day - 1)) {
-                          dateText = "Gestern";
-                        } else {
-                          dateText =
-                              DateFormat('dd.MM.yyyy').format(food.uploadTime!);
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            dateText,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(color: neutral300),
-                          ),
-                        );
-                      },
+                            if (uploadDate ==
+                                DateTime(now.year, now.month, now.day)) {
+                              return "Heute";
+                            } else if (uploadDate ==
+                                DateTime(now.year, now.month, now.day - 1)) {
+                              return "Gestern";
+                            } else {
+                              return DateFormat('dd.MM.yyyy')
+                                  .format(food.uploadTime!);
+                            }
+                          })(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: neutral300),
+                        ),
+                      ),
                       itemBuilder: (context, Food food) {
                         bool hasAllergies = food.allergens.any((allergy) {
                           return foodController.allergiesList.any(
@@ -101,12 +101,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
                         return FoodListTile(
                           name: food.name.value,
-                          allergenes: ['Nuts'],
-                          hasAllergies: false,
+                          allergenes: commonAllergens,
+                          hasAllergies: hasAllergies,
                         );
                       },
-                    ),
-              /*return ListView.builder(
+                    );
+                  }
+                },
+              ),
+            ),
+            /*return ListView.builder(
                       itemCount: foodController.foodsList.length,
                       itemBuilder: (context, index) {
                         bool hasAllergies = foodController
@@ -139,7 +143,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         );
                       },
                     );*/
-            ),
           ],
         ),
       ),
