@@ -181,8 +181,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                   shrinkWrap: true,
                                   itemCount: foodController.scanList.length,
                                   itemBuilder: (context, index) {
+                                    final reversedIndex =
+                                        foodController.scanList.length -
+                                            1 -
+                                            index;
                                     bool hasAllergies = foodController
-                                        .scanList[index].allergens
+                                        .scanList[reversedIndex].allergens
                                         .any(
                                       (allergy) {
                                         return foodController.allergiesList.any(
@@ -193,7 +197,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     );
 
                                     List<String> commonAllergens =
-                                        foodController.scanList[index].allergens
+                                        foodController
+                                            .scanList[reversedIndex].allergens
                                             .where((allergy) {
                                       return foodController.allergiesList.any(
                                           (controllerAllergy) =>
@@ -203,7 +208,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     }).toList();
                                     return FoodListTile(
                                       name: foodController
-                                          .scanList[index].name.value,
+                                          .scanList[reversedIndex].name.value,
                                       allergenes: commonAllergens,
                                       hasAllergies: hasAllergies,
                                     );

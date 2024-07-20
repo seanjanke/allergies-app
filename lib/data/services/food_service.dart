@@ -59,6 +59,7 @@ class OpenFoodFactsApi {
         return Food(
           name: RxString(productName),
           allergens: allergiesList,
+          uploadTime: DateTime.now(),
         );
       } else {
         print('Product not found.');

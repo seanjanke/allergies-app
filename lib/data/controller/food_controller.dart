@@ -59,11 +59,8 @@ class FoodController extends GetxController {
       setUserId(docRefUser.id);
     }
 
-    foodsList.clear();
-
-    print('foodslist lenght before: ${foodsList.length}');
     foodsList.add(food);
-    print('foodslist lenght after: ${foodsList.length}');
+
     DocumentReference docRef = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId.value)
@@ -71,7 +68,7 @@ class FoodController extends GetxController {
         .add({
       'id': 'id',
       'name': food.name.value,
-      'timestamp': FieldValue.serverTimestamp(),
+      'timestamp': Timestamp.fromDate(food.uploadTime!),
     });
 
     docRef.update({'id': docRef.id});
