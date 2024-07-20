@@ -27,7 +27,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   final MultiSplitViewController _controller = MultiSplitViewController();
 
-  bool useBackCamera = true;
+  bool showFlashlight = false;
 
   @override
   void initState() {
@@ -138,11 +138,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         qrViewController!.toggleFlash();
+                                        setState(() {
+                                          showFlashlight = !showFlashlight;
+                                        });
                                       },
                                       child: Container(
                                         padding: smallPadding,
-                                        child: const Icon(
-                                            Icons.flashlight_on_rounded),
+                                        child: Icon(
+                                          Icons.flashlight_on_rounded,
+                                          color:
+                                              showFlashlight ? primary : black,
+                                        ),
                                       ),
                                     ),
                                   ],
