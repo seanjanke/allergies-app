@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -175,50 +176,37 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                         Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 )
-                              : SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: ListView.builder(
-                                          itemCount:
-                                              foodController.scanList.length,
-                                          itemBuilder: (context, index) {
-                                            bool hasAllergies = foodController
-                                                .scanList[index].allergens
-                                                .any(
-                                              (allergy) {
-                                                return foodController
-                                                    .allergiesList
-                                                    .any((controllerAllergy) =>
-                                                        controllerAllergy
-                                                            .name ==
-                                                        allergy);
-                                              },
-                                            );
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: foodController.scanList.length,
+                                  itemBuilder: (context, index) {
+                                    bool hasAllergies = foodController
+                                        .scanList[index].allergens
+                                        .any(
+                                      (allergy) {
+                                        return foodController.allergiesList.any(
+                                            (controllerAllergy) =>
+                                                controllerAllergy.name ==
+                                                allergy);
+                                      },
+                                    );
 
-                                            List<String> commonAllergens =
-                                                foodController
-                                                    .scanList[index].allergens
-                                                    .where((allergy) {
-                                              return foodController
-                                                  .allergiesList
-                                                  .any((controllerAllergy) =>
-                                                      controllerAllergy.name
-                                                          .toLowerCase() ==
-                                                      allergy.toLowerCase());
-                                            }).toList();
-                                            return FoodListTile(
-                                              name: foodController
-                                                  .scanList[index].name.value,
-                                              allergenes: commonAllergens,
-                                              hasAllergies: hasAllergies,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    List<String> commonAllergens =
+                                        foodController.scanList[index].allergens
+                                            .where((allergy) {
+                                      return foodController.allergiesList.any(
+                                          (controllerAllergy) =>
+                                              controllerAllergy.name
+                                                  .toLowerCase() ==
+                                              allergy.toLowerCase());
+                                    }).toList();
+                                    return FoodListTile(
+                                      name: foodController
+                                          .scanList[index].name.value,
+                                      allergenes: commonAllergens,
+                                      hasAllergies: hasAllergies,
+                                    );
+                                  },
                                 ),
                         ),
                       );

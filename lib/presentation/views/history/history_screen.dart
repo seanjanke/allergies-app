@@ -1,8 +1,11 @@
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/models/food.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:intl/intl.dart';
 
 class HistoryScreen extends StatefulWidget {
   static const routeName = 'history';
@@ -34,17 +37,76 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
             largeGap,
             Expanded(
-              child: Obx(
-                () {
-                  if (foodController.foodsList.isEmpty) {
-                    return Center(
+              child: foodController.foodsList.isEmpty
+                  ? Center(
                       child: Text(
                         'Keine Scans vorhanden',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                    );
-                  } else {
-                    return ListView.builder(
+                    )
+                  : StickyGroupedListView<Food, DateTime>(
+                      elements: foodController.foodsList,
+                      order: StickyGroupedListOrder.DESC,
+                      groupBy: (Food food) => DateTime(
+                        food.uploadTime!.year,
+                        food.uploadTime!.month,
+                        food.uploadTime!.day,
+                      ),
+                      stickyHeaderBackgroundColor: background,
+                      groupSeparatorBuilder: (Food food) {
+                        DateTime now = DateTime.now();
+                        DateTime uploadDate = DateTime(
+                          food.uploadTime!.year,
+                          food.uploadTime!.month,
+                          food.uploadTime!.day,
+                        );
+
+                        String dateText;
+                        if (uploadDate ==
+                            DateTime(now.year, now.month, now.day)) {
+                          dateText = "Heute";
+                        } else if (uploadDate ==
+                            DateTime(now.year, now.month, now.day - 1)) {
+                          dateText = "Gestern";
+                        } else {
+                          dateText =
+                              DateFormat('dd.MM.yyyy').format(food.uploadTime!);
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            dateText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(color: neutral300),
+                          ),
+                        );
+                      },
+                      itemBuilder: (context, Food food) {
+                        bool hasAllergies = food.allergens.any((allergy) {
+                          return foodController.allergiesList.any(
+                              (controllerAllergy) =>
+                                  controllerAllergy.name == allergy);
+                        });
+
+                        List<String> commonAllergens =
+                            food.allergens.where((allergy) {
+                          return foodController.allergiesList.any(
+                              (controllerAllergy) =>
+                                  controllerAllergy.name.toLowerCase() ==
+                                  allergy.toLowerCase());
+                        }).toList();
+
+                        return FoodListTile(
+                          name: food.name.value,
+                          allergenes: ['Nuts'],
+                          hasAllergies: false,
+                        );
+                      },
+                    ),
+              /*return ListView.builder(
                       itemCount: foodController.foodsList.length,
                       itemBuilder: (context, index) {
                         bool hasAllergies = foodController
@@ -63,16 +125,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   controllerAllergy.name.toLowerCase() ==
                                   allergy.toLowerCase());
                         }).toList();
+                        if (foodController.foodsList[index].uploadTime !=
+                            null) {
+                          print(
+                              "uploadTime: ${foodController.foodsList[index].uploadTime}");
+                        } else {
+                          print("uploadtime is null");
+                        }
                         return FoodListTile(
                           name: foodController.foodsList[index].name.value,
                           allergenes: commonAllergens,
                           hasAllergies: hasAllergies,
                         );
                       },
-                    );
-                  }
-                },
-              ),
+                    );*/
             ),
           ],
         ),

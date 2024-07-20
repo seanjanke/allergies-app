@@ -94,6 +94,8 @@ class FoodController extends GetxController {
 
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         String foodName = doc['name'].toLowerCase();
+        Timestamp uploadTime = doc['timestamp'];
+        DateTime uploadDateTime = uploadTime.toDate();
 
         QuerySnapshot snapshot = await FirebaseFirestore.instance
             .collection('users')
@@ -104,6 +106,7 @@ class FoodController extends GetxController {
             .get();
 
         List<String> allergenesList = [];
+
         for (QueryDocumentSnapshot doc in snapshot.docs) {
           print("allergene found: ${doc['name'].toLowerCase()}");
           String allergyName = doc['name'].toLowerCase();
@@ -114,6 +117,7 @@ class FoodController extends GetxController {
           Food(
             name: RxString(foodName.capitalizeFirst!),
             allergens: allergenesList,
+            uploadTime: uploadDateTime,
           ),
         );
       }

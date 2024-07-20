@@ -49,6 +49,8 @@ dependencies:
   flutter_slidable: ^3.1.1
   multi_split_view: ^3.2.2
   font_awesome_flutter: ^10.7.0
+  sticky_grouped_list: ^3.1.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +77,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/animations/new_file.riv
-    - assets/animations/allergiesapp.riv
     - assets/animations/allergiesapp-8.riv
     - assets/animations/document_icon.riv
 

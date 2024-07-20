@@ -248,6 +248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   js:
     dependency: transitive
     description:
@@ -464,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.9"
+  scrollable_positioned_list:
+    dependency: transitive
+    description:
+      name: scrollable_positioned_list
+      sha256: "1b54d5f1329a1e263269abc9e2543d90806131aa14fe7c6062a8054d57249287"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.8"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -549,6 +565,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  sticky_grouped_list:
+    dependency: "direct main"
+    description:
+      name: sticky_grouped_list
+      sha256: "40398cb90321f07cbdbdd3049c27a5f048bd75a13abb19453b07a956f53a0eda"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   stream_channel:
     dependency: transitive
     description:
