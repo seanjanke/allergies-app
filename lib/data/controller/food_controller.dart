@@ -12,6 +12,7 @@ class FoodController extends GetxController {
   RxList<Allergy> allergiesList = <Allergy>[].obs;
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
+  RxList<String> qrCodesList = <String>[].obs;
 
   @override
   void onInit() {

@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -34,8 +35,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final deviceHeight = MediaQuery.of(context).size.height;
       _controller.areas = [
-        Area(size: deviceHeight * 0.8, min: deviceHeight * 0.5),
-        Area(size: deviceHeight * 0.2),
+        Area(size: deviceHeight * 0.7, min: deviceHeight * 0.5),
+        Area(size: deviceHeight * 0.3),
       ];
       _controller.addListener(_rebuild);
     });
@@ -246,8 +247,38 @@ class _ScannerScreenState extends State<ScannerScreen> {
     this.qrViewController = qrViewController;
     qrViewController.scannedDataStream.listen((qrData) async {
       final String? qrCode = qrData.code;
-      foodController.addFoodFromBarcode(qrCode!);
-      qrViewController.dispose();
+      if (!foodController.qrCodesList.contains(qrCode)) {
+        foodController.qrCodesList.add(qrCode!);
+        foodController.addFoodFromBarcode(qrCode);
+        showSuccessToast();
+        showHapticFeedback();
+      } else {
+        print("already scanned");
+      }
+      //qrViewController.dispose();
     });
+  }
+
+  void showSuccessToast() {
+    Fluttertoast.showToast(
+      msg: "Barcode erkannt!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: black,
+      textColor: white,
+      fontSize: 16,
+    );
+  }
+
+  void showHapticFeedback() async {
+    final canVibrate = await Haptics.canVibrate();
+
+    if (canVibrate) {
+      print('vibrate');
+      await Haptics.vibrate(HapticsType.success);
+    } else {
+      print("can not vibrate");
+    }
   }
 }
