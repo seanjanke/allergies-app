@@ -22,8 +22,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        top: false,
         minimum: const EdgeInsets.only(
-          top: 20,
           left: 20,
           right: 20,
         ),
@@ -35,7 +35,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               "Verlauf",
               style: Theme.of(context).textTheme.displaySmall,
             ),
-            largeGap,
+            mediumGap,
             Expanded(
               child: Obx(
                 () {

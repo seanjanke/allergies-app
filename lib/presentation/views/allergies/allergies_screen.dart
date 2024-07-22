@@ -23,8 +23,8 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        top: false,
         minimum: const EdgeInsets.only(
-          top: 20,
           left: 20,
           right: 20,
         ),
@@ -59,12 +59,13 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                     child: Icon(
                       showWrap == false ? Icons.add : Icons.check,
                       color: white,
+                      size: 20,
                     ),
                   ),
                 ),
               ],
             ),
-            largeGap,
+            mediumGap,
             Expanded(
               child: Obx(
                 () {

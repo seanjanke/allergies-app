@@ -1,9 +1,15 @@
 import 'package:allergies/core/theme/color_palette.dart';
+import 'package:allergies/core/theme/scaling_system.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';
@@ -142,6 +148,9 @@ class _MainScreenState extends State<MainScreen> {
   }*/
 
   int selectedIndex = 0;
+  String batteryLevel = "";
+
+  var battery = Battery();
 
   static const List screens = [
     ScannerScreen(),
@@ -155,11 +164,74 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void getBatteryLevel() async {
+    int phoneBattery = await battery.batteryLevel;
+    setState(() {
+      batteryLevel = phoneBattery.toString();
+    });
+  }
+
+  @override
+  void initState() {
+    getBatteryLevel();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: screens.elementAt(selectedIndex),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 12),
+            margin: const EdgeInsets.only(bottom: 8),
+            color: background,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    DateFormat('HH:mm').format(DateTime.now()),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: black),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.boltLightning,
+                        color: black,
+                        size: 14,
+                      ),
+                      extraSmallGap,
+                      Text(
+                        batteryLevel,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: black),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: screens.elementAt(selectedIndex),
+          ),
+        ],
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(

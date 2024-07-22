@@ -6,14 +6,6 @@ BorderRadius smallCirular = BorderRadius.circular(8);
 BorderRadius mediumCirular = BorderRadius.circular(12);
 BorderRadius largeCirular = BorderRadius.circular(16);
 
-//SAFEAREA
-const safeArea = EdgeInsets.only(
-  top: 20,
-  bottom: 20,
-  left: 20,
-  right: 20,
-);
-
 //GAP
 const extraSmallGap = Gap(4);
 const smallGap = Gap(8);

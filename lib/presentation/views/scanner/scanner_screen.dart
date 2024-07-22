@@ -71,7 +71,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Scaffold(
       backgroundColor: background,
       body: SafeArea(
-        minimum: const EdgeInsets.only(top: 20),
+        top: false,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
