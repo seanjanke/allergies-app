@@ -1,11 +1,9 @@
 import 'package:allergies/core/theme/color_palette.dart';
-import 'package:allergies/core/theme/scaling_system.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';
-import 'package:allergies/presentation/widgets/bottom_nav_item.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';
@@ -16,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int selectedIndex = 0;
+  /*int selectedIndex = 0;
 
   List<SMIBool> riveIconInputs = [];
   List<SMIBool> doneInputs = [];
@@ -111,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: GestureDetector(
                   onTap: () {
                     onItemTapped(index);
-                    animateIcon(index);
+                    //animateIcon(index);
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -138,6 +136,68 @@ class _MainScreenState extends State<MainScreen> {
               );
             },
           ),
+        ),
+      ),
+    );
+  }*/
+
+  int selectedIndex = 0;
+
+  static const List screens = [
+    ScannerScreen(),
+    HistoryScreen(),
+    AllergiesScreen(),
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: screens.elementAt(selectedIndex),
+      ),
+      bottomNavigationBar: Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: onItemTapped,
+          backgroundColor: white,
+          selectedItemColor: primary,
+          unselectedItemColor: neutral400,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+          selectedLabelStyle: GoogleFonts.lexend(
+            color: primary,
+            fontSize: 14,
+          ),
+          unselectedLabelStyle: GoogleFonts.lexend(
+            color: primary,
+            fontSize: 14,
+          ),
+          items: const [
+            BottomNavigationBarItem(
+              label: "Scan",
+              icon: Icon(Icons.qr_code),
+            ),
+            BottomNavigationBarItem(
+              label: "History",
+              icon: Icon(Icons.history),
+            ),
+            BottomNavigationBarItem(
+              label: "Profile",
+              icon: Icon(Icons.person_outline),
+            ),
+          ],
         ),
       ),
     );

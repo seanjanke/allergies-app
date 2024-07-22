@@ -1,6 +1,7 @@
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
 import 'package:allergies/data/services/food_service.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ class FoodController extends GetxController {
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
   RxList<String> qrCodesList = <String>[].obs;
+  final audioPlayer = AudioPlayer();
 
   @override
   void onInit() {
@@ -193,6 +195,7 @@ class FoodController extends GetxController {
   void addFoodFromBarcode(String barcode) async {
     OpenFoodFactsApi.fetchAndPrintProduct(barcode).then((food) {
       if (food != null) {
+        playSound();
         addFood(food);
         scanList.add(food);
       } else {
@@ -201,5 +204,9 @@ class FoodController extends GetxController {
     }).catchError((error) {
       print('Failed to fetch food information: $error');
     });
+  }
+
+  Future<void> playSound() async {
+    await audioPlayer.play(AssetSource("audio/success_audio.mp3"));
   }
 }

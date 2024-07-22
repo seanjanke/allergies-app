@@ -110,39 +110,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 },
               ),
             ),
-            /*return ListView.builder(
-                      itemCount: foodController.foodsList.length,
-                      itemBuilder: (context, index) {
-                        bool hasAllergies = foodController
-                            .foodsList[index].allergens
-                            .any((allergy) {
-                          return foodController.allergiesList.any(
-                              (controllerAllergy) =>
-                                  controllerAllergy.name == allergy);
-                        });
-
-                        List<String> commonAllergens = foodController
-                            .foodsList[index].allergens
-                            .where((allergy) {
-                          return foodController.allergiesList.any(
-                              (controllerAllergy) =>
-                                  controllerAllergy.name.toLowerCase() ==
-                                  allergy.toLowerCase());
-                        }).toList();
-                        if (foodController.foodsList[index].uploadTime !=
-                            null) {
-                          print(
-                              "uploadTime: ${foodController.foodsList[index].uploadTime}");
-                        } else {
-                          print("uploadtime is null");
-                        }
-                        return FoodListTile(
-                          name: foodController.foodsList[index].name.value,
-                          allergenes: commonAllergens,
-                          hasAllergies: hasAllergies,
-                        );
-                      },
-                    );*/
           ],
         ),
       ),
