@@ -1,12 +1,9 @@
-import 'package:allergies/core/theme/color_palette.dart';
-import 'package:allergies/core/theme/scaling_system.dart';
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/';
@@ -173,18 +170,18 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: onItemTapped,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Scan",
-            icon: Icon(Icons.qr_code),
+            label: LocaleData.bottomNavItem1Titel.getString(context),
+            icon: const Icon(Icons.qr_code),
           ),
           BottomNavigationBarItem(
-            label: "History",
-            icon: Icon(Icons.history),
+            label: LocaleData.bottomNavItem2Titel.getString(context),
+            icon: const Icon(Icons.history),
           ),
           BottomNavigationBarItem(
-            label: "Profile",
-            icon: Icon(Icons.person_outline),
+            label: LocaleData.bottomNavItem3Titel.getString(context),
+            icon: const Icon(Icons.person_outline),
           ),
         ],
       ),

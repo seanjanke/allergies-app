@@ -50,10 +50,11 @@ dependencies:
   multi_split_view: ^3.2.2
   font_awesome_flutter: ^10.7.0
   sticky_grouped_list: ^3.1.0
-  intl: ^0.19.0
+  intl: 0.18.1
   fluttertoast: ^8.2.6
   haptic_feedback: ^0.5.1+1
   audioplayers: ^6.0.0
+  flutter_localization: ^0.2.1
 
 dev_dependencies:
   flutter_test:

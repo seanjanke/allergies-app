@@ -61,10 +61,10 @@ const lightColorScheme = ColorScheme(
   error: warning500,
   onError: neutral100,
   background: lightBackground,
-  onBackground: neutral900,
-  surface: neutral50,
-  onSurface: neutral900,
-  onSurfaceVariant: neutral400,
+  onBackground: neutral300, //unselected button on background
+  surface: neutral50, //container on background
+  onSurface: neutral900, //text on container on background
+  onSurfaceVariant: neutral400, //info text on background
 );
 
 const darkColorScheme = ColorScheme(
@@ -76,8 +76,8 @@ const darkColorScheme = ColorScheme(
   error: warning500,
   onError: neutral100,
   background: darkBackground,
-  onBackground: neutral100,
-  surface: neutral900,
-  onSurface: neutral100,
-  onSurfaceVariant: neutral500,
+  onBackground: neutral900, //unselected button on background
+  surface: neutral900, //container on background
+  onSurface: neutral100, //text on container on background
+  onSurfaceVariant: neutral500, //info text on background
 );

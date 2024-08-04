@@ -54,6 +54,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       ),
                       stickyHeaderBackgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
+                      padding: EdgeInsets.zero,
                       groupSeparatorBuilder: (Food food) => Padding(
                         padding: smallPadding,
                         child: Text(
@@ -76,7 +77,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   .format(food.uploadTime!);
                             }
                           })(),
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ),
                       itemBuilder: (context, Food food) {

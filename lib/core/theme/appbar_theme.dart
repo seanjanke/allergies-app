@@ -7,7 +7,7 @@ var lightAppbarTheme = AppBarTheme(
   centerTitle: true,
   scrolledUnderElevation: 0,
   iconTheme: const IconThemeData(color: black),
-  titleTextStyle: lightTextTheme.headlineSmall,
+  titleTextStyle: lightTextTheme.labelLarge,
 );
 
 var darkAppbarTheme = AppBarTheme(
@@ -15,5 +15,5 @@ var darkAppbarTheme = AppBarTheme(
   centerTitle: true,
   scrolledUnderElevation: 0,
   iconTheme: const IconThemeData(color: neutral100),
-  titleTextStyle: darkTextTheme.headlineSmall,
+  titleTextStyle: darkTextTheme.labelLarge,
 );
