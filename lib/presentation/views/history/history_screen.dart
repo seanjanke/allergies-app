@@ -23,17 +23,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       body: SafeArea(
         top: false,
-        minimum: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
+        minimum: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Verlauf",
-              style: Theme.of(context).textTheme.displaySmall,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             mediumGap,
             Expanded(
@@ -55,9 +52,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         food.uploadTime!.month,
                         food.uploadTime!.day,
                       ),
-                      stickyHeaderBackgroundColor: background,
+                      stickyHeaderBackgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       groupSeparatorBuilder: (Food food) => Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: smallPadding,
                         child: Text(
                           (() {
                             DateTime now = DateTime.now();
@@ -78,10 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   .format(food.uploadTime!);
                             }
                           })(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: neutral300),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ),
                       itemBuilder: (context, Food food) {

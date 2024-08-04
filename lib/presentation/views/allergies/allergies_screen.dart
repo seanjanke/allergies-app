@@ -1,9 +1,13 @@
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
+import 'package:allergies/presentation/views/settings/settings_screen.dart';
 import 'package:allergies/presentation/widgets/allergies_list_tile.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class AllergiesScreen extends StatefulWidget {
@@ -24,10 +28,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
     return Scaffold(
       body: SafeArea(
         top: false,
-        minimum: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
+        minimum: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,34 +39,40 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
               children: [
                 Text(
                   "Allergien",
-                  style: Theme.of(context).textTheme.displaySmall,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      showWrap = !showWrap;
-                    });
-
-                    for (Allergy allergyItem in foodController.allergiesList) {
-                      selectedAllergies.add(allergyItem.allergy);
-                    }
+                    Beamer.of(context).beamToNamed(SettingsScreen.routeName);
                   },
-                  child: Container(
-                    padding: smallPadding,
-                    decoration: BoxDecoration(
-                      color: primary,
-                      borderRadius: smallCirular,
-                    ),
-                    child: Icon(
-                      showWrap == false ? Icons.add : Icons.check,
-                      color: white,
-                      size: 20,
-                    ),
-                  ),
+                  child: const FaIcon(FontAwesomeIcons.gear),
                 ),
               ],
             ),
             mediumGap,
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  showWrap = !showWrap;
+                });
+
+                for (Allergy allergyItem in foodController.allergiesList) {
+                  selectedAllergies.add(allergyItem.allergy);
+                }
+              },
+              child: Container(
+                padding: smallPadding,
+                decoration: BoxDecoration(
+                  color: primary,
+                  borderRadius: smallCirular,
+                ),
+                child: Icon(
+                  showWrap == false ? Icons.add : Icons.check,
+                  color: white,
+                  size: 20,
+                ),
+              ),
+            ),
             Expanded(
               child: Obx(
                 () {

@@ -26,7 +26,7 @@ class _FoodListTileState extends State<FoodListTile> {
       margin: const EdgeInsets.only(bottom: 12),
       padding: mediumPadding,
       decoration: BoxDecoration(
-        color: neutral100,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: smallCirular,
       ),
       child: Row(
@@ -40,9 +40,11 @@ class _FoodListTileState extends State<FoodListTile> {
               children: [
                 Text(
                   widget.name.capitalize!,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                 ),
-                smallGap,
+                extraSmallGap,
                 if (widget.allergenes.isNotEmpty) ...[
                   Row(
                     children: [
@@ -57,21 +59,26 @@ class _FoodListTileState extends State<FoodListTile> {
                 ] else ...[
                   Text(
                     "Keine Allergene",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                   ),
                 ],
               ],
             ),
           ),
           Container(
-            padding: smallPadding,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: widget.allergenes.isEmpty ? success500 : warning500,
               borderRadius: smallCirular,
             ),
-            child: Text(
-              widget.allergenes.isEmpty ? "👍" : "👎",
-              style: Theme.of(context).textTheme.displayMedium,
+            child: Center(
+              child: Text(
+                widget.allergenes.isEmpty ? "👍" : "👎",
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
           ),
         ],

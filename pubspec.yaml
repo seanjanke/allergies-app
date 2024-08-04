@@ -54,7 +54,6 @@ dependencies:
   fluttertoast: ^8.2.6
   haptic_feedback: ^0.5.1+1
   audioplayers: ^6.0.0
-  battery_plus: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +83,6 @@ flutter:
     - assets/animations/allergiesapp-8.riv
     - assets/animations/document_icon.riv
     - assets/audio/success_audio.mp3
-    - assets/images/battery.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

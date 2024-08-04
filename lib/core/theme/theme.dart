@@ -1,6 +1,9 @@
+import 'package:allergies/core/theme/appbar_theme.dart';
+import 'package:allergies/core/theme/bottom_appbar_theme.dart';
 import 'package:allergies/core/theme/color_palette.dart';
+import 'package:allergies/core/theme/icon_theme.dart';
+import 'package:allergies/core/theme/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 export 'color_palette.dart';
 export 'scaling_system.dart';
@@ -8,86 +11,33 @@ export 'scaling_system.dart';
 //LIGHT THEME
 
 ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
   useMaterial3: true,
   primaryColor: primary,
-  scaffoldBackgroundColor: background,
-  textTheme: TextTheme(
-    displayLarge: GoogleFonts.lexend(
-      fontSize: 32,
-      fontWeight: FontWeight.w700,
-      color: neutral900,
-    ),
-    displayMedium: GoogleFonts.lexend(
-      fontSize: 28,
-      fontWeight: FontWeight.w700,
-      color: neutral900,
-    ),
-    displaySmall: GoogleFonts.lexend(
-      fontSize: 24,
-      fontWeight: FontWeight.w700,
-      color: neutral900,
-    ),
-    headlineLarge: GoogleFonts.lexend(
-      fontSize: 22,
-      fontWeight: FontWeight.w600,
-      color: neutral900,
-    ),
-    headlineMedium: GoogleFonts.lexend(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: neutral900,
-    ),
-    headlineSmall: GoogleFonts.lexend(
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
-      color: neutral900,
-    ),
-    labelLarge: GoogleFonts.lexend(
-      color: neutral500,
-      fontSize: 16,
-      fontWeight: FontWeight.w600,
-    ),
-    labelMedium: GoogleFonts.lexend(
-      color: neutral500,
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    ),
-    labelSmall: GoogleFonts.lexend(
-      color: neutral500,
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    ),
-    bodyLarge: GoogleFonts.lexend(
-      color: neutral300,
-      fontSize: 18,
-      fontWeight: FontWeight.w500,
-    ),
-    bodyMedium: GoogleFonts.lexend(
-      color: neutral300,
-      fontSize: 16,
-      fontWeight: FontWeight.w500,
-    ),
-    bodySmall: GoogleFonts.lexend(
-      color: neutral300,
-      fontSize: 14,
-      fontWeight: FontWeight.w500,
-    ),
-  ),
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: neutral100,
-    selectionColor: primary100,
-    selectionHandleColor: primary,
-  ),
-  appBarTheme: AppBarTheme(
-    backgroundColor: white,
-    centerTitle: true,
-    scrolledUnderElevation: 0,
-    iconTheme: const IconThemeData(color: black),
-    titleTextStyle: GoogleFonts.lexend(
-      fontSize: 20,
-      fontWeight: FontWeight.w600,
-      color: neutral900,
-    ),
-  ),
+  scaffoldBackgroundColor: lightBackground,
+  primarySwatch: MaterialColor(primary.value, primaryColorMap),
+  colorScheme: lightColorScheme,
+  textTheme: lightTextTheme,
+  textSelectionTheme: lightTextSelectionTheme,
+  appBarTheme: lightAppbarTheme,
+  bottomNavigationBarTheme: ligthBottomAppbarTheme,
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
+  iconButtonTheme: iconButtonThemeLight,
+  iconTheme: iconThemeLight,
+);
+
+ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  primaryColor: primary,
+  primarySwatch: MaterialColor(primary.value, primaryColorMap),
+  colorScheme: darkColorScheme,
+  scaffoldBackgroundColor: darkBackground,
+  textTheme: darkTextTheme,
+  textSelectionTheme: darkTextSelectionTheme,
+  appBarTheme: darkAppbarTheme,
+  bottomNavigationBarTheme: darkBottomAppbarTheme,
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
+  iconButtonTheme: iconButtonThemeDark,
+  iconTheme: iconThemeDark,
 );

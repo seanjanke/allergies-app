@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
-  battery_plus
   cloud_firestore
   firebase_core
   permission_handler_windows

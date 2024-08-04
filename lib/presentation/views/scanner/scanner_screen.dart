@@ -69,7 +69,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: background,
       body: SafeArea(
         top: false,
         child: Column(
@@ -103,10 +102,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               child: ClipRRect(
                                 borderRadius: largeCirular,
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: largeCirular,
-                                    color: background,
-                                  ),
+                                  decoration:
+                                      BoxDecoration(borderRadius: largeCirular),
                                   width: MediaQuery.sizeOf(context).width - 20,
                                   height: double.infinity,
                                   child: buildQRView(context),
@@ -131,7 +128,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                       child: Container(
                                         padding: smallPadding,
                                         child: const Icon(
-                                            Icons.flip_camera_ios_rounded),
+                                          Icons.flip_camera_ios_rounded,
+                                        ),
                                       ),
                                     ),
                                     smallGap,
@@ -146,8 +144,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                         padding: smallPadding,
                                         child: Icon(
                                           Icons.flashlight_on_rounded,
-                                          color:
-                                              showFlashlight ? primary : black,
+                                          color: showFlashlight
+                                              ? primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
                                         ),
                                       ),
                                     ),
