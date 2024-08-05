@@ -15,6 +15,11 @@ class FoodController extends GetxController {
   RxBool allergyAlreadyExistant = false.obs;
   RxList<String> qrCodesList = <String>[].obs;
   final audioPlayer = AudioPlayer();
+  Rx<Food> selectedFood = Food(
+    name: RxString(""),
+    allergens: [],
+    ingredients: "",
+  ).obs;
 
   @override
   void onInit() {
@@ -71,6 +76,7 @@ class FoodController extends GetxController {
       'id': 'id',
       'name': food.name.value,
       'timestamp': Timestamp.fromDate(food.uploadTime!),
+      'ingredients': food.ingredients,
     });
 
     docRef.update({'id': docRef.id});
@@ -113,17 +119,25 @@ class FoodController extends GetxController {
           allergenesList.add(allergyName);
         }
 
+        String ingredients = "";
+        if (doc['ingredients'] != null) {
+          ingredients = doc['ingredients'];
+        }
+
         foodsList.add(
           Food(
             name: RxString(foodName.capitalizeFirst!),
             allergens: allergenesList,
             uploadTime: uploadDateTime,
+            ingredients: ingredients,
           ),
         );
       }
     } catch (e) {
       print(e.toString());
     }
+
+    print(foodsList.length);
 
     print('got foods');
   }

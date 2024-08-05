@@ -1,6 +1,5 @@
 import 'package:allergies/core/about.dart';
 import 'package:allergies/core/locales.dart';
-import 'package:allergies/core/theme/scaling_system.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/general_controller.dart';
 import 'package:allergies/data/controller/theme_controller.dart';

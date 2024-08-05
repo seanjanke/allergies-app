@@ -12,7 +12,7 @@ import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-import '../../../core/theme/theme.dart';
+import '../../../../core/theme/theme.dart';
 
 class ScannerScreen extends StatefulWidget {
   static const routeName = 'scanner';
@@ -289,7 +289,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
           showHapticFeedback();
         }
       } else {
-        print("already scanned");
+        showAlreadyScannedToast();
       }
       //qrViewController.dispose();
     });
@@ -297,7 +297,19 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   void showSuccessToast() {
     Fluttertoast.showToast(
-      msg: "Barcode erkannt!",
+      msg: LocaleData.scanSuccess.getString(context),
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: black,
+      textColor: white,
+      fontSize: 16,
+    );
+  }
+
+  void showAlreadyScannedToast() {
+    Fluttertoast.showToast(
+      msg: LocaleData.scanExists.getString(context),
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 2,

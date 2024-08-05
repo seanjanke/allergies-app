@@ -17,6 +17,6 @@ const large3Gap = Gap(96);
 //PADDING
 const extraSmallPadding = EdgeInsets.all(4);
 const smallPadding = EdgeInsets.all(8);
-const mediumPadding = EdgeInsets.all(16);
-const largePadding = EdgeInsets.all(20);
-const extraLargePadding = EdgeInsets.all(32);
+const mediumPadding = EdgeInsets.all(12);
+const largePadding = EdgeInsets.all(16);
+const extraLargePadding = EdgeInsets.all(20);

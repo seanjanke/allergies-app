@@ -26,7 +26,7 @@ class _FoodListTileState extends State<FoodListTile> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: mediumPadding,
+      padding: largePadding,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: smallCirular,

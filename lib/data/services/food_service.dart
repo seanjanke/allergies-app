@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
@@ -16,16 +17,16 @@ class OpenFoodFactsApi {
     if (response.statusCode == 200) {
       final productData = json.decode(response.body);
       if (productData['status'] == 1) {
-        final productInfo = productData['product'];
-        print('Product Information:');
-        productInfo.forEach((key, value) {
-          print('$key: $value');
-        });
+        final productInfo = productData['product'] as Map<String, dynamic>;
+        log('Product Information:');
+        for (var key in productInfo.keys) {
+          log('$key: ${productInfo[key]}');
+        }
       } else {
-        print('Product not found.');
+        log('Product not found.');
       }
     } else {
-      print('Failed to load product information.');
+      log('Failed to load product information.');
     }
   }
 
@@ -56,9 +57,15 @@ class OpenFoodFactsApi {
           }
         }
 
+        String ingredients = "";
+        if (productInfo.containsKey('ingredients_text')) {
+          ingredients = productInfo['ingredients_text'];
+        }
+
         return Food(
           name: RxString(productName),
           allergens: allergiesList,
+          ingredients: ingredients,
           uploadTime: DateTime.now(),
         );
       } else {

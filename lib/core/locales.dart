@@ -45,6 +45,8 @@ mixin LocaleData {
   static const String sesame = "sesame";
   static const String fructose = "fructose";
   static const String search = "search";
+  static const String scanSuccess = "scanSuccess";
+  static const String scanExists = "scanExists";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -84,6 +86,8 @@ mixin LocaleData {
     sesame: "Sesame",
     fructose: "Fructose",
     search: "Search",
+    scanSuccess: "Barcode scanned!",
+    scanExists: "Barcode already scanned",
   };
 
   static const Map<String, dynamic> DE = {
@@ -124,6 +128,8 @@ mixin LocaleData {
     sesame: "Sasam",
     fructose: "Fructose",
     search: "Suchen",
+    scanSuccess: "Barcode erkannt!",
+    scanExists: "Bereits gescannt",
   };
 
   static const Map<String, dynamic> ES = {
@@ -164,6 +170,8 @@ mixin LocaleData {
     sesame: "Sésamo",
     fructose: "Fructosa",
     search: "Buscar en",
+    scanSuccess: "Code-barres détecté!",
+    scanExists: "Code-barres déjà scanné",
   };
 
   static const Map<String, dynamic> FR = {
@@ -203,5 +211,7 @@ mixin LocaleData {
     sesame: "Sésame",
     fructose: "Fructose",
     search: "Chercher",
+    scanSuccess: "Código de barras reconocido!",
+    scanExists: "Código de barras ya escaneado",
   };
 }

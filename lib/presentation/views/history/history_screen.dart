@@ -1,8 +1,11 @@
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
+import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
@@ -42,7 +45,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     return Center(
                       child: Text(
                         LocaleData.noScans.getString(context),
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                     );
                   } else {
@@ -104,10 +109,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   allergy.toLowerCase());
                         }).toList();
 
-                        return FoodListTile(
-                          name: food.name.value,
-                          allergenes: commonAllergens,
-                          hasAllergies: hasAllergies,
+                        return GestureDetector(
+                          onTap: () {
+                            foodController.selectedFood.value = Food(
+                              name: food.name,
+                              allergens: commonAllergens,
+                              ingredients: food.ingredients,
+                            );
+
+                            Beamer.of(context)
+                                .beamToNamed(FoodDetailScreen.routeName);
+                          },
+                          child: FoodListTile(
+                            name: food.name.value,
+                            allergenes: commonAllergens,
+                            hasAllergies: hasAllergies,
+                          ),
                         );
                       },
                     );

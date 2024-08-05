@@ -48,8 +48,8 @@ class _ContainerListTileState extends State<ContainerListTile> {
           duration: const Duration(milliseconds: 100),
           width: isTapped ? double.infinity - 2 : double.infinity,
           padding: isTapped
-              ? mediumPadding - const EdgeInsets.symmetric(vertical: 1)
-              : mediumPadding,
+              ? largePadding - const EdgeInsets.symmetric(vertical: 1)
+              : largePadding,
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             color: widget.color ?? Theme.of(context).colorScheme.surface,

@@ -1,7 +1,9 @@
+import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
+import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/main_screen.dart';
-import 'package:allergies/presentation/views/scanner/scanner_screen.dart';
+import 'package:allergies/presentation/views/scanner/pages/scanner_screen.dart';
 import 'package:allergies/presentation/views/settings/pages/settings_language_screen.dart';
 import 'package:allergies/presentation/views/settings/settings_screen.dart';
 import 'package:beamer/beamer.dart';
@@ -41,6 +43,11 @@ final routerDelegate = BeamerDelegate(
             title: 'Sprache',
             child: SettingsLanguageScreen(),
           ),
+      FoodDetailScreen.routeName: (context, state, data) => const BeamPage(
+            key: ValueKey('foodDetail'),
+            title: 'Lebensmittel',
+            child: FoodDetailScreen(),
+          )
     },
   ).call,
 );
