@@ -83,8 +83,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   dividerPainter: DividerPainters.grooved1(
                     thickness: 12,
                     highlightedThickness: 12,
-                    color: neutral300,
-                    highlightedColor: black,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    highlightedColor: Theme.of(context).colorScheme.onSurface,
                     size: 60,
                     highlightedSize: 60,
                   ),
@@ -104,8 +104,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               child: ClipRRect(
                                 borderRadius: largeCirular,
                                 child: Container(
-                                  decoration:
-                                      BoxDecoration(borderRadius: largeCirular),
+                                  decoration: BoxDecoration(
+                                    borderRadius: largeCirular,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
                                   width: MediaQuery.sizeOf(context).width - 20,
                                   height: double.infinity,
                                   child: buildQRView(context),
@@ -116,7 +119,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               top: 12,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.6),
+                                  color: Theme.of(context).colorScheme.surface,
                                   borderRadius: largeCirular,
                                 ),
                                 child: Row(
@@ -129,8 +132,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                       },
                                       child: Container(
                                         padding: smallPadding,
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.flip_camera_ios_rounded,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
                                         ),
                                       ),
                                     ),
@@ -171,7 +177,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           right: 12,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surface,
+                          color: Theme.of(context).colorScheme.tertiary,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(16),
                             topRight: Radius.circular(16),
@@ -213,7 +219,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                             .where((allergy) {
                                       return foodController.allergiesList.any(
                                           (controllerAllergy) =>
-                                              controllerAllergy.name(context)
+                                              controllerAllergy
+                                                  .name(context)
                                                   .toLowerCase() ==
                                               allergy.toLowerCase());
                                     }).toList();
@@ -245,7 +252,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       overlay: QrScannerOverlayShape(
         cutOutSize: MediaQuery.of(context).size.width * 0.7,
         borderWidth: 12,
-        borderLength: 24,
+        borderLength: 20,
         borderRadius: 12,
         borderColor: primary,
       ),

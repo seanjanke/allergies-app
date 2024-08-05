@@ -173,15 +173,15 @@ class _MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(
             label: LocaleData.bottomNavItem1Titel.getString(context),
-            icon: const Icon(Icons.qr_code),
+            icon: const Icon(Icons.qr_code_rounded),
           ),
           BottomNavigationBarItem(
             label: LocaleData.bottomNavItem2Titel.getString(context),
-            icon: const Icon(Icons.history),
+            icon: const Icon(Icons.history_rounded),
           ),
           BottomNavigationBarItem(
             label: LocaleData.bottomNavItem3Titel.getString(context),
-            icon: const Icon(Icons.person_outline),
+            icon: const Icon(Icons.person),
           ),
         ],
       ),

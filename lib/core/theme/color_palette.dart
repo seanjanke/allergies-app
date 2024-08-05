@@ -45,7 +45,7 @@ Map<int, Color> primaryColorMap = {
 
 //STATES
 const success100 = Color.fromARGB(255, 229, 255, 212);
-const success500 = Color.fromARGB(255, 107, 218, 33);
+const success500 = Color.fromARGB(255, 14, 215, 34);
 const success900 = Color.fromARGB(255, 33, 76, 3);
 
 const warning100 = Color.fromARGB(255, 255, 216, 212);
@@ -65,6 +65,7 @@ const lightColorScheme = ColorScheme(
   surface: neutral50, //container on background
   onSurface: neutral900, //text on container on background
   onSurfaceVariant: neutral400, //info text on background
+  tertiary: white, //white container on background
 );
 
 const darkColorScheme = ColorScheme(
@@ -80,4 +81,5 @@ const darkColorScheme = ColorScheme(
   surface: neutral900, //container on background
   onSurface: neutral100, //text on container on background
   onSurfaceVariant: neutral500, //info text on background
+  tertiary: neutral900, //dark container on background
 );
