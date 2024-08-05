@@ -18,6 +18,8 @@ mixin LocaleData {
   static const String yesterday = "yesterday";
   static const String allergiesTitle = "allergiesTitle";
   static const String noAllergenesSelected = "noAllergenesSelected";
+  static const String noAllergenesFound = "noAllergenesFound";
+  static const String noScans = "noScans";
   static const String settingsTitle = "settingsTitle";
   static const String settingsAppearance = "settingsAppearance";
   static const String settingsLanguage = "settingsLanguage";
@@ -42,6 +44,7 @@ mixin LocaleData {
   static const String peanuts = "peanuts";
   static const String sesame = "sesame";
   static const String fructose = "fructose";
+  static const String search = "search";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -54,6 +57,8 @@ mixin LocaleData {
     yesterday: "Yesterday",
     allergiesTitle: "Allegens",
     noAllergenesSelected: "No Allergenes selected",
+    noAllergenesFound: "No Allergenes found",
+    noScans: "No scans yet",
     settingsTitle: "Settings",
     settingsAppearance: "Appearance",
     settingsLanguage: "Language",
@@ -78,6 +83,7 @@ mixin LocaleData {
     peanuts: "Peanuts",
     sesame: "Sesame",
     fructose: "Fructose",
+    search: "Search",
   };
 
   static const Map<String, dynamic> DE = {
@@ -91,6 +97,8 @@ mixin LocaleData {
     yesterday: "Gestern",
     allergiesTitle: "Allergene",
     noAllergenesSelected: "Keine Allergene vorhanden",
+    noAllergenesFound: "Keine Allergene gefunden",
+    noScans: "Noch keine Scans vorhanden",
     settingsTitle: "Einstellungen",
     settingsAppearance: "Darstellung",
     settingsLanguage: "Sprache",
@@ -115,6 +123,7 @@ mixin LocaleData {
     peanuts: "Erdnüsse",
     sesame: "Sasam",
     fructose: "Fructose",
+    search: "Suchen",
   };
 
   static const Map<String, dynamic> ES = {
@@ -128,6 +137,8 @@ mixin LocaleData {
     yesterday: "Ayer",
     allergiesTitle: "Alérgenos",
     noAllergenesSelected: "No se han seleccionado alérgenos",
+    noAllergenesFound: "No se han encontrado alérgenos",
+    noScans: "No hay escaneos disponibles",
     settingsTitle: "Ajustes",
     settingsAppearance: "Apariencia",
     settingsLanguage: "Idioma",
@@ -152,6 +163,7 @@ mixin LocaleData {
     peanuts: "Nueces del suelo",
     sesame: "Sésamo",
     fructose: "Fructosa",
+    search: "Buscar en",
   };
 
   static const Map<String, dynamic> FR = {
@@ -164,6 +176,8 @@ mixin LocaleData {
     yesterday: "Hier",
     allergiesTitle: "Alergène",
     noAllergenesSelected: "Aucun allergène sélectionné",
+    noAllergenesFound: "Aucun allergène trouvé",
+    noScans: "Aucun scan disponible pour le moment",
     settingsTitle: "Réglages",
     settingsAppearance: "Apparence",
     settingsLanguage: "Langue",
@@ -188,5 +202,6 @@ mixin LocaleData {
     peanuts: "Cacahuètes",
     sesame: "Sésame",
     fructose: "Fructose",
+    search: "Chercher",
   };
 }

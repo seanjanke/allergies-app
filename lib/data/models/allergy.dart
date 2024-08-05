@@ -16,14 +16,41 @@ enum AllergeneType {
   fructose,
 }
 
-class Allergy {
-  final AllergeneType allergy;
-  //TODO: add icon or image here
+List<Allergy> allAllergies = const [
+  Allergy(
+    allergeneType: AllergeneType.lactose,
+    imagePath: "assets/images/lactose_asset.png",
+  ),
+  Allergy(
+    allergeneType: AllergeneType.shellfish,
+    imagePath: "assets/images/shellfish_asset.png",
+  ),
+  Allergy(
+    allergeneType: AllergeneType.wheat,
+    imagePath: "assets/images/wheat_asset.png",
+  ),
+  Allergy(
+    allergeneType: AllergeneType.fish,
+    imagePath: "assets/images/fish_asset.png",
+  ),
+  Allergy(
+    allergeneType: AllergeneType.fructose,
+    imagePath: "assets/images/fructose_asset-2.png",
+  ),
+  Allergy(
+    allergeneType: AllergeneType.eggs,
+    imagePath: "assets/images/eggs_asset-2.png",
+  ),
+];
 
-  const Allergy({required this.allergy});
+class Allergy {
+  final AllergeneType allergeneType;
+  final String? imagePath;
+
+  const Allergy({required this.allergeneType, this.imagePath});
 
   String name(BuildContext context) {
-    switch (allergy) {
+    switch (allergeneType) {
       case AllergeneType.lactose:
         return LocaleData.lactose.getString(context);
       case AllergeneType.nuts:

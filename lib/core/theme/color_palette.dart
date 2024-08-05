@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 //COLOR PALETTE
 
 //neutral
+
 const white = Colors.white;
 const lightBackground = Color.fromARGB(255, 251, 251, 251);
-const neutral50 = Color.fromRGBO(234, 238, 241, 1);
-const neutral100 = Color.fromRGBO(211, 219, 224, 1);
-const neutral200 = Color.fromRGBO(190, 200, 207, 1);
-const neutral300 = Color.fromRGBO(169, 181, 189, 1);
-const neutral400 = Color.fromRGBO(147, 160, 170, 1);
-const neutral500 = Color.fromRGBO(111, 128, 141, 1);
-const neutral600 = Color.fromRGBO(71, 89, 101, 1);
-const neutral700 = Color.fromRGBO(38, 59, 74, 1);
-const neutral800 = Color.fromRGBO(17, 36, 50, 1);
-const neutral900 = Color.fromRGBO(3, 19, 32, 1);
-const darkBackground = Color.fromRGBO(0, 7, 13, 1);
+const neutral50 = Color.fromRGBO(242, 242, 242, 1);
+const neutral100 = Color.fromRGBO(230, 230, 230, 1);
+const neutral200 = Color.fromRGBO(204, 204, 204, 1);
+const neutral300 = Color.fromRGBO(179, 179, 179, 1);
+const neutral400 = Color.fromRGBO(153, 153, 153, 1);
+const neutral500 = Color.fromRGBO(128, 128, 128, 1);
+const neutral600 = Color.fromRGBO(102, 102, 102, 1);
+const neutral700 = Color.fromRGBO(77, 77, 77, 1);
+const neutral800 = Color.fromRGBO(51, 51, 51, 1);
+const neutral900 = Color.fromRGBO(26, 26, 26, 1);
+const neutral950 = Color.fromRGBO(12, 12, 12, 1);
+const darkBackground = Color.fromRGBO(6, 6, 6, 1);
 const black = Colors.black;
 
 //primary
@@ -63,9 +65,10 @@ const lightColorScheme = ColorScheme(
   background: lightBackground,
   onBackground: neutral300, //unselected button on background
   surface: neutral50, //container on background
-  onSurface: neutral900, //text on container on background
+  onSurface: neutral950, //text on container on background
   onSurfaceVariant: neutral400, //info text on background
   tertiary: white, //white container on background
+  onTertiary: neutral100, //border of container on background
 );
 
 const darkColorScheme = ColorScheme(
@@ -76,10 +79,11 @@ const darkColorScheme = ColorScheme(
   onSecondary: neutral100,
   error: warning500,
   onError: neutral100,
-  background: darkBackground,
+  background: black,
   onBackground: neutral900, //unselected button on background
   surface: neutral900, //container on background
   onSurface: neutral100, //text on container on background
   onSurfaceVariant: neutral500, //info text on background
   tertiary: neutral900, //dark container on background
+  onTertiary: neutral800, //border of container on background
 );

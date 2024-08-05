@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/controller/general_controller.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -23,6 +24,7 @@ class ScannerScreen extends StatefulWidget {
 
 class _ScannerScreenState extends State<ScannerScreen> {
   FoodController foodController = Get.find();
+  GeneralController generalController = Get.find();
 
   final qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? qrViewController;
@@ -137,6 +139,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onSurface,
+                                          size: 26,
                                         ),
                                       ),
                                     ),
@@ -157,6 +160,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                               : Theme.of(context)
                                                   .colorScheme
                                                   .onSurface,
+                                          size: 26,
                                         ),
                                       ),
                                     ),
@@ -189,8 +193,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                   child: Text(
                                     LocaleData.scanResultInfo
                                         .getString(context),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
+                                        ),
                                     textAlign: TextAlign.center,
                                   ),
                                 )
@@ -273,8 +283,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
       if (!foodController.qrCodesList.contains(qrCode)) {
         foodController.qrCodesList.add(qrCode!);
         foodController.addFoodFromBarcode(qrCode);
-        showSuccessToast();
-        showHapticFeedback();
+
+        if (generalController.useHapticFeedback.value == true) {
+          showSuccessToast();
+          showHapticFeedback();
+        }
       } else {
         print("already scanned");
       }

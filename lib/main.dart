@@ -1,5 +1,7 @@
 import 'package:allergies/app.dart';
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/controller/general_controller.dart';
+import 'package:allergies/data/controller/theme_controller.dart';
 import 'package:allergies/data/services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,8 @@ void main() async {
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Get.put(FoodController());
+  Get.put(GeneralController());
+  Get.put(ThemeController());
 
   runApp(const AllergiesApp());
 }

@@ -47,8 +47,8 @@ class FoodController extends GetxController {
     foodAlreadyExistant.value = false;
 
     for (Allergy allgy in allergiesList) {
-      if (food.allergens.contains(allgy.allergy.name.toLowerCase())) {
-        print('allergy found: ${allgy.allergy.name}');
+      if (food.allergens.contains(allgy.allergeneType.name.toLowerCase())) {
+        print('allergy found: ${allgy.allergeneType.name}');
       }
     }
 
@@ -178,7 +178,7 @@ class FoodController extends GetxController {
         if (allergyEnum != null) {
           allergiesList.add(
             Allergy(
-              allergy: allergyEnum,
+              allergeneType: allergyEnum,
             ),
           );
         } else {

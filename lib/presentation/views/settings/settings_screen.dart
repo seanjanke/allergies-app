@@ -1,6 +1,8 @@
 import 'package:allergies/core/about.dart';
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/scaling_system.dart';
+import 'package:allergies/core/theme/theme.dart';
+import 'package:allergies/data/controller/general_controller.dart';
 import 'package:allergies/data/controller/theme_controller.dart';
 import 'package:allergies/presentation/views/settings/components/settings_list_tile.dart';
 import 'package:allergies/presentation/views/settings/pages/settings_language_screen.dart';
@@ -8,6 +10,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatelessWidget {
   static const routeName = "/settings";
@@ -16,6 +19,8 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeController themeController = Get.find();
+    GeneralController generalController = Get.find();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -66,8 +71,37 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             ContainerListTile(
+              title: "Haptisches Feedback",
+              onTap: () {
+                generalController.toggleHapticFeedback();
+              },
+              trailing: SizedBox(
+                height: 20,
+                child: Obx(
+                  () => Switch(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    value: generalController.useHapticFeedback.value,
+                    activeColor: primary,
+                    inactiveThumbColor: neutral600,
+                    inactiveTrackColor: neutral800,
+                    activeTrackColor: primary.withOpacity(0.4),
+                    onChanged: (bool newValue) {
+                      generalController.toggleHapticFeedback();
+                    },
+                  ),
+                ),
+              ),
+            ),
+            ContainerListTile(
               title: LocaleData.contactUs.getString(context),
-              onTap: () {},
+              onTap: () async {
+                var url = Uri.parse("mailto:contact@jnk-studios.com");
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
             ),
             ContainerListTile(
               title: LocaleData.shareApp.getString(context),

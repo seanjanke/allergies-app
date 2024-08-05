@@ -16,7 +16,7 @@ class AllergiesApp extends StatefulWidget {
 }
 
 class _AllergiesAppState extends State<AllergiesApp> {
-  ThemeController controller = Get.put(ThemeController());
+  ThemeController controller = Get.find();
 
   final FlutterLocalization localization = FlutterLocalization.instance;
 

@@ -41,7 +41,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   if (foodController.foodsList.isEmpty) {
                     return Center(
                       child: Text(
-                        'Keine Scans vorhanden',
+                        LocaleData.noScans.getString(context),
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     );
@@ -79,7 +79,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   .format(food.uploadTime!);
                             }
                           })(),
-                          style: Theme.of(context).textTheme.labelMedium,
+                          style:
+                              Theme.of(context).textTheme.labelMedium!.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                         ),
                       ),
                       itemBuilder: (context, Food food) {
