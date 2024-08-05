@@ -131,6 +131,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         qrViewController!.flipCamera();
+                                        foodController
+                                            .addFoodFromBarcode("21121234");
                                       },
                                       child: Container(
                                         padding: smallPadding,

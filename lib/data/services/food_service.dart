@@ -62,10 +62,18 @@ class OpenFoodFactsApi {
           ingredients = productInfo['ingredients_text'];
         }
 
+        List<String> traces = [];
+        if (productInfo.containsKey('traces_tags')) {
+          for (String trace in productInfo['traces_tags']) {
+            traces.add(trace);
+          }
+        }
+
         return Food(
           name: RxString(productName),
           allergens: allergiesList,
           ingredients: ingredients,
+          traces: traces,
           uploadTime: DateTime.now(),
         );
       } else {

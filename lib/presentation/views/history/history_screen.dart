@@ -114,6 +114,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             foodController.selectedFood.value = Food(
                               name: food.name,
                               allergens: commonAllergens,
+                              traces: food.traces,
                               ingredients: food.ingredients,
                             );
 

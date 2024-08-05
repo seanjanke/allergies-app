@@ -47,6 +47,12 @@ mixin LocaleData {
   static const String search = "search";
   static const String scanSuccess = "scanSuccess";
   static const String scanExists = "scanExists";
+  static const String ingredients = "ingredients";
+  static const String noIngredientsFound = "noIngredientsFound";
+  static const String close = "close";
+  static const String traces = "traces";
+  static const String noTracesFound = "noTracesFound";
+  static const String allergenesAndTraces = "allergenesAndTraces";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -88,6 +94,12 @@ mixin LocaleData {
     search: "Search",
     scanSuccess: "Barcode scanned!",
     scanExists: "Barcode already scanned",
+    ingredients: "Ingredients",
+    noIngredientsFound: "No ingredients found",
+    close: "Close",
+    traces: "Traces",
+    noTracesFound: "No Traces found",
+    allergenesAndTraces: "Allergenes & Traces",
   };
 
   static const Map<String, dynamic> DE = {
@@ -130,6 +142,12 @@ mixin LocaleData {
     search: "Suchen",
     scanSuccess: "Barcode erkannt!",
     scanExists: "Bereits gescannt",
+    ingredients: "Inhaltsstoffe",
+    noIngredientsFound: "Keine Inhaltsstoffe gefunden",
+    close: "Schließen",
+    traces: "Spuren",
+    noTracesFound: "Keine Spuren gefunden",
+    allergenesAndTraces: "Allergene & Spuren",
   };
 
   static const Map<String, dynamic> ES = {
@@ -172,6 +190,12 @@ mixin LocaleData {
     search: "Buscar en",
     scanSuccess: "Code-barres détecté!",
     scanExists: "Code-barres déjà scanné",
+    ingredients: "Ingredientes",
+    noIngredientsFound: "No se han encontrado ingredientes",
+    close: "Cerrar",
+    traces: "Huellas",
+    noTracesFound: "No se han encontrado rastros",
+    allergenesAndTraces: "Alérgenos & Huellas",
   };
 
   static const Map<String, dynamic> FR = {
@@ -213,5 +237,11 @@ mixin LocaleData {
     search: "Chercher",
     scanSuccess: "Código de barras reconocido!",
     scanExists: "Código de barras ya escaneado",
+    ingredients: "Ingrédients",
+    noIngredientsFound: "Aucun ingrédient trouvé",
+    close: "Fermer",
+    traces: "Traces",
+    noTracesFound: "Aucune trace trouvée",
+    allergenesAndTraces: "Alergène & Traces",
   };
 }

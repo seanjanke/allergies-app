@@ -18,6 +18,7 @@ class FoodController extends GetxController {
   Rx<Food> selectedFood = Food(
     name: RxString(""),
     allergens: [],
+    traces: [],
     ingredients: "",
   ).obs;
 
@@ -44,18 +45,10 @@ class FoodController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String userIdPrefs = prefs.getString('userId') ?? '';
     userId.value = userIdPrefs;
-
-    print('got user id');
   }
 
   void addFood(Food food) async {
     foodAlreadyExistant.value = false;
-
-    for (Allergy allgy in allergiesList) {
-      if (food.allergens.contains(allgy.allergeneType.name.toLowerCase())) {
-        print('allergy found: ${allgy.allergeneType.name}');
-      }
-    }
 
     if (userId.value.isEmpty) {
       DocumentReference docRefUser = await FirebaseFirestore.instance
@@ -86,6 +79,12 @@ class FoodController extends GetxController {
         'name': allergy,
       });
     }
+
+    for (String trace in food.traces) {
+      docRef.collection('traces').doc(trace).set(
+        {'name': trace},
+      );
+    }
   }
 
   Future<void> getFoods() async {
@@ -111,6 +110,14 @@ class FoodController extends GetxController {
             .collection('allergies')
             .get();
 
+        QuerySnapshot tracesSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId.value)
+            .collection('foods')
+            .doc(doc.id)
+            .collection('traces')
+            .get();
+
         List<String> allergenesList = [];
 
         for (QueryDocumentSnapshot doc in snapshot.docs) {
@@ -124,11 +131,20 @@ class FoodController extends GetxController {
           ingredients = doc['ingredients'];
         }
 
+        List<String> tracesList = [];
+
+        for (QueryDocumentSnapshot trace in tracesSnapshot.docs) {
+          print("trace found: ${trace['name'].toLowerCase()}");
+          String traceName = trace['name'].toLowerCase();
+          tracesList.add(traceName);
+        }
+
         foodsList.add(
           Food(
             name: RxString(foodName.capitalizeFirst!),
             allergens: allergenesList,
             uploadTime: uploadDateTime,
+            traces: tracesList,
             ingredients: ingredients,
           ),
         );
