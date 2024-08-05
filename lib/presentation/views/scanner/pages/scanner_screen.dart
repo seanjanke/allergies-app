@@ -325,10 +325,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     final canVibrate = await Haptics.canVibrate();
 
     if (canVibrate) {
-      print('vibrate');
       await Haptics.vibrate(HapticsType.success);
-    } else {
-      print("can not vibrate");
     }
   }
 }

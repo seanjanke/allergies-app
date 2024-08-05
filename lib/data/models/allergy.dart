@@ -50,29 +50,33 @@ class Allergy {
   const Allergy({required this.allergeneType, this.imagePath});
 
   String name(BuildContext context) {
-    switch (allergeneType) {
-      case AllergeneType.lactose:
-        return LocaleData.lactose.getString(context);
-      case AllergeneType.nuts:
-        return LocaleData.nuts.getString(context);
-      case AllergeneType.gluten:
-        return LocaleData.gluten.getString(context);
-      case AllergeneType.shellfish:
-        return LocaleData.shellfish.getString(context);
-      case AllergeneType.eggs:
-        return LocaleData.eggs.getString(context);
-      case AllergeneType.soy:
-        return LocaleData.soy.getString(context);
-      case AllergeneType.wheat:
-        return LocaleData.wheat.getString(context);
-      case AllergeneType.fish:
-        return LocaleData.fish.getString(context);
-      case AllergeneType.peanuts:
-        return LocaleData.peanuts.getString(context);
-      case AllergeneType.sesame:
-        return LocaleData.sesame.getString(context);
-      case AllergeneType.fructose:
-        return LocaleData.fructose.getString(context);
+    if (context.mounted) {
+      switch (allergeneType) {
+        case AllergeneType.lactose:
+          return LocaleData.lactose.getString(context);
+        case AllergeneType.nuts:
+          return LocaleData.nuts.getString(context);
+        case AllergeneType.gluten:
+          return LocaleData.gluten.getString(context);
+        case AllergeneType.shellfish:
+          return LocaleData.shellfish.getString(context);
+        case AllergeneType.eggs:
+          return LocaleData.eggs.getString(context);
+        case AllergeneType.soy:
+          return LocaleData.soy.getString(context);
+        case AllergeneType.wheat:
+          return LocaleData.wheat.getString(context);
+        case AllergeneType.fish:
+          return LocaleData.fish.getString(context);
+        case AllergeneType.peanuts:
+          return LocaleData.peanuts.getString(context);
+        case AllergeneType.sesame:
+          return LocaleData.sesame.getString(context);
+        case AllergeneType.fructose:
+          return LocaleData.fructose.getString(context);
+      }
+    } else {
+      return "";
     }
   }
 }

@@ -121,7 +121,6 @@ class FoodController extends GetxController {
         List<String> allergenesList = [];
 
         for (QueryDocumentSnapshot doc in snapshot.docs) {
-          print("allergene found: ${doc['name'].toLowerCase()}");
           String allergyName = doc['name'].toLowerCase();
           allergenesList.add(allergyName);
         }
@@ -134,7 +133,6 @@ class FoodController extends GetxController {
         List<String> tracesList = [];
 
         for (QueryDocumentSnapshot trace in tracesSnapshot.docs) {
-          print("trace found: ${trace['name'].toLowerCase()}");
           String traceName = trace['name'].toLowerCase();
           tracesList.add(traceName);
         }
@@ -152,40 +150,38 @@ class FoodController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
-
-    print(foodsList.length);
-
-    print('got foods');
   }
 
-  void addAllergy(Allergy allergy) {
+  void addAllergy(Allergy allergy) async {
     allergyAlreadyExistant.value = false;
+
     if (!allergiesList.contains(allergy)) {
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(userId.value)
           .collection('allergies')
           .add({
-        'name': allergy.name,
+        'name': allergy.allergeneType.name,
       });
+      allergiesList.add(allergy);
     } else {
       allergyAlreadyExistant.value = true;
     }
   }
 
   void removeAllergy(Allergy allergy) async {
+    allergiesList.remove(allergy);
+
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId.value)
         .collection('allergies')
-        .where('name', isEqualTo: allergy.name)
+        .where('name', isEqualTo: allergy.allergeneType.name)
         .get();
 
     for (DocumentSnapshot doc in snapshot.docs) {
       await doc.reference.delete();
     }
-
-    getAllergies();
   }
 
   Future<void> getAllergies() async {
@@ -201,25 +197,18 @@ class FoodController extends GetxController {
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         String allergyName = doc['name'].toLowerCase();
 
-        AllergeneType? allergyEnum = AllergeneType.values.firstWhereOrNull(
-          (element) => element.name.toLowerCase() == allergyName,
-        );
+        AllergeneType allergyType =
+            AllergeneType.values.firstWhere((type) => type.name == allergyName);
 
-        if (allergyEnum != null) {
-          allergiesList.add(
-            Allergy(
-              allergeneType: allergyEnum,
-            ),
-          );
-        } else {
-          print("Allergy not found for name: $allergyName");
-        }
+        allergiesList.add(
+          Allergy(
+            allergeneType: allergyType,
+          ),
+        );
       }
     } catch (e) {
       print(e.toString());
     }
-
-    print('got allergies');
   }
 
   void addFoodFromBarcode(String barcode) async {

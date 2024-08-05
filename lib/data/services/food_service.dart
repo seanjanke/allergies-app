@@ -49,7 +49,7 @@ class OpenFoodFactsApi {
         for (String allergyItem in allergies) {
           for (AllergeneType allergy in AllergeneType.values) {
             if (allergyItem.contains(allergy.name.toLowerCase())) {
-              print("allergy found: ${allergy.name.toLowerCase()}");
+            
               allergiesList.add(allergy.name.capitalizeFirst!);
             } else {
               // print("${allergy.name.toLowerCase()} is not included");
