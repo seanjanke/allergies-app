@@ -1,3 +1,4 @@
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
@@ -5,7 +6,7 @@ import 'package:allergies/presentation/views/settings/settings_screen.dart';
 import 'package:allergies/presentation/widgets/allergies_list_tile.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -38,7 +39,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Allergien",
+                  LocaleData.allergiesTitle.getString(context),
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 GestureDetector(
@@ -134,7 +135,8 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                             ? Expanded(
                                 child: Center(
                                   child: Text(
-                                    "Keine Allergien vorhanden",
+                                    LocaleData.noAllergenesSelected
+                                        .getString(context),
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
@@ -182,7 +184,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                     if (foodController.allergiesList.isEmpty) {
                       return Center(
                         child: Text(
-                          "Keine Allergien vorhanden",
+                          LocaleData.noAllergenesSelected.getString(context),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       );

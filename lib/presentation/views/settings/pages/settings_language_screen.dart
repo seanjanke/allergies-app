@@ -1,3 +1,4 @@
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/color_palette.dart';
 import 'package:allergies/core/theme/scaling_system.dart';
 import 'package:allergies/presentation/views/settings/components/language_list_tile.dart';
@@ -40,6 +41,10 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
       localization.translate("en");
     } else if (value == "de") {
       localization.translate("de");
+    } else if (value == "es") {
+      localization.translate("es");
+    } else if (value == "fr") {
+      localization.translate("fr");
     }
 
     setState(() {
@@ -62,12 +67,53 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
     }
   }
 
+  void getLanguages(String currentLocal) {
+    if (currentLocale == "en") {
+      setState(() {
+        languages = [
+          "🇬🇧 English",
+          "🇪🇸 Spanish",
+          "🇫🇷 French",
+          "🇩🇪 German",
+        ];
+      });
+    } else if (currentLocale == "de") {
+      setState(() {
+        languages = [
+          "🇬🇧 Englisch",
+          "🇪🇸 Spanisch",
+          "🇫🇷 Französisch",
+          "🇩🇪 Deutsch",
+        ];
+      });
+    } else if (currentLocale == "fr") {
+      setState(() {
+        languages = [
+          "🇬🇧 Anglais",
+          "🇪🇸 Espagnol",
+          "🇫🇷 Français",
+          "🇩🇪 Allemand",
+        ];
+      });
+    } else if (currentLocale == "es") {
+      setState(() {
+        languages = [
+          "🇬🇧 Inglés",
+          "🇪🇸 Español",
+          "🇫🇷 Francés",
+          "🇩🇪 Alemàn",
+        ];
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     currentLocale = localization.currentLocale!.languageCode;
     selectedLocale = currentLocale;
     selectedIndex = getLanguageIndex(currentLocale);
+    getLanguages(currentLocale);
   }
 
   @override
@@ -80,7 +126,7 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: const Text("Sprache"),
+        title: Text(LocaleData.settingsLanguage.getString(context)),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),
@@ -99,19 +145,19 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
                     title: languages[index],
                     isSelected: selectedIndex == index,
                     onTap: () {
-                      if (language == "🇬🇧 English") {
+                      if (language.contains("🇬🇧")) {
                         setState(() {
                           selectedLocale = "en";
                         });
-                      } else if (language == "🇪🇸 Spanish") {
+                      } else if (language.contains("🇪🇸")) {
                         setState(() {
                           selectedLocale = "es";
                         });
-                      } else if (language == "🇫🇷 French") {
+                      } else if (language.contains("🇫🇷")) {
                         setState(() {
                           selectedLocale = "fr";
                         });
-                      } else if (language == "🇩🇪 German") {
+                      } else if (language.contains("🇩🇪")) {
                         setState(() {
                           selectedLocale = "de";
                         });
@@ -129,7 +175,7 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
             mediumGap,
             Center(
               child: Text(
-                "More languages coming soon",
+                LocaleData.moreLanguagesSoon.getString(context),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -137,7 +183,7 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
             ),
             const Spacer(),
             Button(
-              label: "Speichern",
+              label: LocaleData.safe.getString(context),
               color: selectedLocale != currentLocale
                   ? primary
                   : Theme.of(context).colorScheme.onBackground,

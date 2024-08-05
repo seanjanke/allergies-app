@@ -1,6 +1,8 @@
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
 
 class FoodListTile extends StatefulWidget {
@@ -58,7 +60,7 @@ class _FoodListTileState extends State<FoodListTile> {
                   ),
                 ] else ...[
                   Text(
-                    "Keine Allergene",
+                    LocaleData.noAllergies.getString(context),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),

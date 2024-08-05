@@ -1,8 +1,10 @@
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/food.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +31,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Verlauf",
+              LocaleData.historyTitle.getString(context),
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             mediumGap,
@@ -68,10 +70,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
                             if (uploadDate ==
                                 DateTime(now.year, now.month, now.day)) {
-                              return "Heute";
+                              return LocaleData.today.getString(context);
                             } else if (uploadDate ==
                                 DateTime(now.year, now.month, now.day - 1)) {
-                              return "Gestern";
+                              return LocaleData.yesterday.getString(context);
                             } else {
                               return DateFormat('dd.MM.yyyy')
                                   .format(food.uploadTime!);

@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:allergies/core/locales.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
@@ -165,12 +167,12 @@ class _ScannerScreenState extends State<ScannerScreen> {
                         margin: const EdgeInsets.only(top: 16),
                         padding: const EdgeInsets.only(
                           top: 20,
-                          left: 10,
-                          right: 10,
+                          left: 12,
+                          right: 12,
                         ),
-                        decoration: const BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.only(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(16),
                             topRight: Radius.circular(16),
                           ),
@@ -179,9 +181,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           () => foodController.scanList.isEmpty
                               ? Center(
                                   child: Text(
-                                    "Hier werden deine Scans angezeigt",
+                                    LocaleData.scanResultInfo
+                                        .getString(context),
                                     style:
                                         Theme.of(context).textTheme.bodyMedium,
+                                    textAlign: TextAlign.center,
                                   ),
                                 )
                               : ListView.builder(
