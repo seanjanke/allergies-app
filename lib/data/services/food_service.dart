@@ -46,7 +46,7 @@ class OpenFoodFactsApi {
 
         List<String> allergiesList = [];
         for (String allergyItem in allergies) {
-          for (Allergies allergy in Allergies.values) {
+          for (AllergeneType allergy in AllergeneType.values) {
             if (allergyItem.contains(allergy.name.toLowerCase())) {
               print("allergy found: ${allergy.name.toLowerCase()}");
               allergiesList.add(allergy.name.capitalizeFirst!);

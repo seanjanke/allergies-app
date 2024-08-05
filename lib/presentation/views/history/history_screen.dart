@@ -93,7 +93,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             food.allergens.where((allergy) {
                           return foodController.allergiesList.any(
                               (controllerAllergy) =>
-                                  controllerAllergy.name.toLowerCase() ==
+                                  controllerAllergy
+                                      .name(context)
+                                      .toLowerCase() ==
                                   allergy.toLowerCase());
                         }).toList();
 

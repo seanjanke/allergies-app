@@ -32,7 +32,7 @@ class SettingsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SettingsListTile(
+            ContainerListTile(
               title: LocaleData.settingsAppearance.getString(context),
               onTap: () {
                 themeController.switchThroughThemes();
@@ -54,7 +54,7 @@ class SettingsScreen extends StatelessWidget {
                 );
               }),
             ),
-            SettingsListTile(
+            ContainerListTile(
               title: LocaleData.settingsLanguage.getString(context),
               onTap: () {
                 Beamer.of(context)
@@ -65,15 +65,15 @@ class SettingsScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
-            SettingsListTile(
+            ContainerListTile(
               title: LocaleData.contactUs.getString(context),
               onTap: () {},
             ),
-            SettingsListTile(
+            ContainerListTile(
               title: LocaleData.shareApp.getString(context),
               onTap: () {},
             ),
-            SettingsListTile(
+            ContainerListTile(
               title: LocaleData.reviewApp.getString(context),
               onTap: () {},
             ),

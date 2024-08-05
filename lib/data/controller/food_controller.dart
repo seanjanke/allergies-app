@@ -171,7 +171,7 @@ class FoodController extends GetxController {
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         String allergyName = doc['name'].toLowerCase();
 
-        Allergies? allergyEnum = Allergies.values.firstWhereOrNull(
+        AllergeneType? allergyEnum = AllergeneType.values.firstWhereOrNull(
           (element) => element.name.toLowerCase() == allergyName,
         );
 

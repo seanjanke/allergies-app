@@ -1,4 +1,8 @@
-enum Allergies {
+import 'package:allergies/core/locales.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+
+enum AllergeneType {
   lactose,
   nuts,
   gluten,
@@ -13,36 +17,35 @@ enum Allergies {
 }
 
 class Allergy {
-  final Allergies allergy;
+  final AllergeneType allergy;
+  //TODO: add icon or image here
 
   const Allergy({required this.allergy});
 
-  String get name {
+  String name(BuildContext context) {
     switch (allergy) {
-      case Allergies.lactose:
-        return 'Lactose';
-      case Allergies.nuts:
-        return 'Nuts';
-      case Allergies.gluten:
-        return 'Gluten';
-      case Allergies.shellfish:
-        return 'Shellfish';
-      case Allergies.eggs:
-        return 'Eggs';
-      case Allergies.soy:
-        return 'Soy';
-      case Allergies.wheat:
-        return 'Wheat';
-      case Allergies.fish:
-        return 'Fish';
-      case Allergies.peanuts:
-        return 'Peanuts';
-      case Allergies.sesame:
-        return 'Sesame';
-      case Allergies.fructose:
-        return 'Fructose';
-      default:
-        return '';
+      case AllergeneType.lactose:
+        return LocaleData.lactose.getString(context);
+      case AllergeneType.nuts:
+        return LocaleData.nuts.getString(context);
+      case AllergeneType.gluten:
+        return LocaleData.gluten.getString(context);
+      case AllergeneType.shellfish:
+        return LocaleData.shellfish.getString(context);
+      case AllergeneType.eggs:
+        return LocaleData.eggs.getString(context);
+      case AllergeneType.soy:
+        return LocaleData.soy.getString(context);
+      case AllergeneType.wheat:
+        return LocaleData.wheat.getString(context);
+      case AllergeneType.fish:
+        return LocaleData.fish.getString(context);
+      case AllergeneType.peanuts:
+        return LocaleData.peanuts.getString(context);
+      case AllergeneType.sesame:
+        return LocaleData.sesame.getString(context);
+      case AllergeneType.fructose:
+        return LocaleData.fructose.getString(context);
     }
   }
 }

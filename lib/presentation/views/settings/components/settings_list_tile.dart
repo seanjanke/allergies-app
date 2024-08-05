@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/theme.dart';
 
-class SettingsListTile extends StatefulWidget {
+class ContainerListTile extends StatefulWidget {
   final String title;
   final VoidCallback onTap;
   final Widget? trailing;
+  final Color? color;
 
-  const SettingsListTile({
+  const ContainerListTile({
     super.key,
     required this.title,
     required this.onTap,
     this.trailing,
+    this.color,
   });
 
   @override
-  State<SettingsListTile> createState() => _SettingsListTileState();
+  State<ContainerListTile> createState() => _ContainerListTileState();
 }
 
-class _SettingsListTileState extends State<SettingsListTile> {
+class _ContainerListTileState extends State<ContainerListTile> {
   bool isTapped = false;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class _SettingsListTileState extends State<SettingsListTile> {
               : mediumPadding,
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
+            color: widget.color ?? Theme.of(context).colorScheme.surface,
             borderRadius: smallCirular,
           ),
           child: widget.trailing != null

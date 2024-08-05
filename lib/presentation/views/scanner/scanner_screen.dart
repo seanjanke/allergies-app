@@ -213,7 +213,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                             .where((allergy) {
                                       return foodController.allergiesList.any(
                                           (controllerAllergy) =>
-                                              controllerAllergy.name
+                                              controllerAllergy.name(context)
                                                   .toLowerCase() ==
                                               allergy.toLowerCase());
                                     }).toList();

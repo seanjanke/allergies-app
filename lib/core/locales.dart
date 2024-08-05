@@ -30,6 +30,18 @@ mixin LocaleData {
   static const String shareApp = "shareApp";
   static const String reviewApp = "reviewApp";
   static const String madeWithLoveInBerlin = "madeWithLoveInBerlin";
+  static const String add = "add";
+  static const String lactose = "lactose";
+  static const String nuts = "nuts";
+  static const String gluten = "gluten";
+  static const String shellfish = "shellfish";
+  static const String eggs = "eggs";
+  static const String soy = "soy";
+  static const String wheat = "wheat";
+  static const String fish = "fish";
+  static const String peanuts = "peanuts";
+  static const String sesame = "sesame";
+  static const String fructose = "fructose";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -54,6 +66,18 @@ mixin LocaleData {
     shareApp: "Share App",
     reviewApp: "Review App",
     madeWithLoveInBerlin: "Made with ❤️ in Berlin",
+    add: "Add",
+    lactose: "Lactose",
+    nuts: "Nuts",
+    gluten: "Gluten",
+    shellfish: "Shellfish",
+    eggs: "Eggs",
+    soy: "Soy",
+    wheat: "Wheat",
+    fish: "Fish",
+    peanuts: "Peanuts",
+    sesame: "Sesame",
+    fructose: "Fructose",
   };
 
   static const Map<String, dynamic> DE = {
@@ -79,6 +103,18 @@ mixin LocaleData {
     shareApp: "App teilen",
     reviewApp: "App bewerten",
     madeWithLoveInBerlin: "Programmiert mit ❤️ in Berlin",
+    add: "Hinzufügen",
+    lactose: "Laktose",
+    nuts: "Nüsse",
+    gluten: "Gluten",
+    shellfish: "Schalentiere",
+    eggs: "Eier",
+    soy: "Soja",
+    wheat: "Weizen",
+    fish: "Fisch",
+    peanuts: "Erdnüsse",
+    sesame: "Sasam",
+    fructose: "Fructose",
   };
 
   static const Map<String, dynamic> ES = {
@@ -104,6 +140,18 @@ mixin LocaleData {
     shareApp: "Compartir la aplicación",
     reviewApp: "Valora la aplicación",
     madeWithLoveInBerlin: "Hecho con ❤️ en Berlin",
+    add: "Añada",
+    lactose: "Lactosa",
+    nuts: "Nueces",
+    gluten: "Gluten",
+    shellfish: "Marisco",
+    eggs: "Huevos",
+    soy: "Soja",
+    wheat: "Trigo",
+    fish: "Pescado",
+    peanuts: "Nueces del suelo",
+    sesame: "Sésamo",
+    fructose: "Fructosa",
   };
 
   static const Map<String, dynamic> FR = {
@@ -128,5 +176,17 @@ mixin LocaleData {
     shareApp: "Partage l'app",
     reviewApp: "Évaluer l'app",
     madeWithLoveInBerlin: "Fait avec ❤️ à Berlin",
+    add: "Ajouter",
+    lactose: "Lactose",
+    nuts: "Noix",
+    gluten: "Gluten",
+    shellfish: "Crustacés",
+    eggs: "Œufs",
+    soy: "Soja",
+    wheat: "Blé",
+    fish: "Poisson",
+    peanuts: "Cacahuètes",
+    sesame: "Sésame",
+    fructose: "Fructose",
   };
 }
