@@ -178,15 +178,13 @@ class FoodController extends GetxController {
           .add({
         'name': allergy.allergeneType.name,
       });
-      allergiesList.add(allergy);
+      getAllergies();
     } else {
       allergyAlreadyExistant.value = true;
     }
   }
 
   void removeAllergy(Allergy allergy) async {
-    allergiesList.remove(allergy);
-
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(userId.value)
@@ -197,6 +195,8 @@ class FoodController extends GetxController {
     for (DocumentSnapshot doc in snapshot.docs) {
       await doc.reference.delete();
     }
+
+    getAllergies();
   }
 
   Future<void> getAllergies() async {

@@ -1,18 +1,15 @@
-import 'dart:io';
-
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/controller/general_controller.dart';
-import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:torch_light/torch_light.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -28,12 +25,21 @@ class _ScannerScreenState extends State<ScannerScreen> {
   FoodController foodController = Get.find();
   GeneralController generalController = Get.find();
 
-  final qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? qrViewController;
-
   final MultiSplitViewController _controller = MultiSplitViewController();
 
+  MobileScannerController qrController = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+    formats: const [
+      BarcodeFormat.code39,
+      BarcodeFormat.code128,
+      BarcodeFormat.ean8,
+      BarcodeFormat.ean13,
+      BarcodeFormat.upcE,
+    ],
+  );
+
   bool showFlashlight = false;
+  bool showFrontcamera = false;
 
   @override
   void initState() {
@@ -44,32 +50,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         Area(size: deviceHeight * 0.7, min: deviceHeight * 0.5),
         Area(size: deviceHeight * 0.3),
       ];
-      _controller.addListener(_rebuild);
     });
-    _controller.addListener(_rebuild);
-  }
-
-  @override
-  void dispose() {
-    qrViewController?.dispose();
-    _controller.removeListener(_rebuild);
-    super.dispose();
-  }
-
-  void _rebuild() {
-    setState(() {
-      // rebuild to update empty text and buttons
-    });
-  }
-
-  @override
-  void reassemble() async {
-    super.reassemble();
-
-    if (Platform.isAndroid) {
-      await qrViewController!.pauseCamera();
-    }
-    qrViewController!.resumeCamera();
   }
 
   @override
@@ -115,7 +96,16 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                   ),
                                   width: MediaQuery.sizeOf(context).width - 20,
                                   height: double.infinity,
-                                  child: buildQRView(context),
+                                  child: MobileScanner(
+                                    controller: qrController,
+                                    onDetect: (capture) {
+                                      List<Barcode> barcodes = capture.barcodes;
+
+                                      for (var barcode in barcodes) {
+                                        print("barcode: ${barcode.rawValue}");
+                                      }
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -132,7 +122,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        qrViewController!.flipCamera();
+                                        qrController.switchCamera();
                                       },
                                       child: Container(
                                         padding: smallPadding,
@@ -147,8 +137,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     ),
                                     smallGap,
                                     GestureDetector(
-                                      onTap: () {
-                                        qrViewController!.toggleFlash();
+                                      onTap: () async {
+                                        qrController.toggleTorch();
                                         setState(() {
                                           showFlashlight = !showFlashlight;
                                         });
@@ -257,54 +247,36 @@ class _ScannerScreenState extends State<ScannerScreen> {
     );
   }
 
-  Widget buildQRView(BuildContext context) {
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: onQRViewCreated,
-      overlay: QrScannerOverlayShape(
-        cutOutSize: MediaQuery.of(context).size.width * 0.7,
-        borderWidth: 12,
-        borderLength: 20,
-        borderRadius: 12,
-        borderColor: primary,
-      ),
-      formatsAllowed: const [
-        BarcodeFormat.code39,
-        BarcodeFormat.code128,
-        BarcodeFormat.ean8,
-        BarcodeFormat.ean13,
-        BarcodeFormat.upcE,
-      ],
-    );
-  }
+  // void onQRViewCreated(QRViewController qrViewController) {
+  //   setState(() {
+  //     this.qrViewController = qrViewController;
+  //   });
 
-  void onQRViewCreated(QRViewController qrViewController) {
-    this.qrViewController = qrViewController;
-    qrViewController.scannedDataStream.listen((qrData) async {
-      final String? qrCode = qrData.code;
+  //   qrViewController.scannedDataStream.listen((qrData) async {
+  //     final String? qrCode = qrData.code;
 
-      if (!foodController.qrCodesList.contains(qrCode)) {
-        if (generalController.useHapticFeedback.value == true) {
-          showSuccessToast();
-          showHapticFeedback();
-        }
+  //     if (!foodController.qrCodesList.contains(qrCode)) {
+  //       if (generalController.useHapticFeedback.value == true) {
+  //         showSuccessToast();
+  //         showHapticFeedback();
+  //       }
 
-        qrViewController.pauseCamera();
+  //       qrViewController.pauseCamera();
 
-        foodController.qrCodesList.add(qrCode!);
-        foodController.addFoodFromBarcode(qrCode, context);
+  //       foodController.qrCodesList.add(qrCode!);
+  //       foodController.addFoodFromBarcode(qrCode, context);
 
-        Beamer.of(context).beamToNamed(FoodDetailScreen.routeName);
+  //       Beamer.of(context).beamToNamed(FoodDetailScreen.routeName);
 
-        Future.delayed(const Duration(seconds: 2), () {
-          qrViewController.resumeCamera();
-        });
-      } else {
-        showAlreadyScannedToast();
-      }
-      //qrViewController.dispose();
-    });
-  }
+  //       Future.delayed(const Duration(seconds: 2), () {
+  //         qrViewController.resumeCamera();
+  //       });
+  //     } else {
+  //       showAlreadyScannedToast();
+  //     }
+  //     //qrViewController.dispose();
+  //   });
+  // }
 
   void showSuccessToast() {
     Fluttertoast.showToast(

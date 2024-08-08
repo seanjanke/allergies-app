@@ -40,15 +40,15 @@ class _AllergiesListTileState extends State<AllergiesListTile> {
     return GestureDetector(
       onTap: () {
         if (isActive) {
-          foodController.removeAllergy(widget.allergy);
           setState(() {
             isActive = false;
           });
+          foodController.removeAllergy(widget.allergy);
         } else {
-          foodController.addAllergy(widget.allergy);
           setState(() {
             isActive = true;
           });
+          foodController.addAllergy(widget.allergy);
         }
       },
       child: Container(

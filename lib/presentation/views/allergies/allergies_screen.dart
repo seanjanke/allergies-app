@@ -3,7 +3,6 @@ import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/presentation/views/allergies/components/allergies_list_tile.dart';
-import 'package:allergies/presentation/views/settings/components/settings_list_tile.dart';
 import 'package:allergies/presentation/views/settings/settings_screen.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
@@ -103,46 +102,26 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
             ),
             extraLargeGap,
             Flexible(
-              child: allergies.isEmpty
-                  ? Center(
-                      child: Text(
-                        LocaleData.noAllergenesFound.getString(context),
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: allergies.length,
-                      itemBuilder: (context, index) {
-                        bool isActive = false;
-                        for (Allergy item in foodController.allergiesList) {
-                          if (item.allergeneType ==
-                              allergies[index].allergeneType) {
-                            isActive = true;
-                          }
-                        }
-                        return AllergiesListTile(
-                          allergy: allergies[index],
-                          isActive: isActive,
-                        );
-                      },
-                    ),
-            ),
-            Obx(
-              () => Visibility(
-                visible: foodController.allergiesList.isEmpty,
-                child: ContainerListTile(
-                  title: LocaleData.add.getString(context),
-                  color: primary.withOpacity(0.6),
-                  onTap: () {
-                    //TODO: implement this
-                  },
-                ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: allergies.length,
+                itemBuilder: (context, index) {
+                  return Obx(() {
+                    bool isActive = false;
+
+                    for (Allergy item in foodController.allergiesList) {
+                      if (item.allergeneType ==
+                          allergies[index].allergeneType) {
+                        isActive = true;
+                      }
+                    }
+
+                    return AllergiesListTile(
+                      allergy: allergies[index],
+                      isActive: isActive,
+                    );
+                  });
+                },
               ),
             ),
           ],
