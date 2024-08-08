@@ -284,17 +284,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
       final String? qrCode = qrData.code;
 
       if (!foodController.qrCodesList.contains(qrCode)) {
+        if (generalController.useHapticFeedback.value == true) {
+          showSuccessToast();
+          showHapticFeedback();
+        }
+
         qrViewController.pauseCamera();
 
         foodController.qrCodesList.add(qrCode!);
         foodController.addFoodFromBarcode(qrCode, context);
 
         Beamer.of(context).beamToNamed(FoodDetailScreen.routeName);
-
-        if (generalController.useHapticFeedback.value == true) {
-          showSuccessToast();
-          showHapticFeedback();
-        }
 
         Future.delayed(const Duration(seconds: 2), () {
           qrViewController.resumeCamera();

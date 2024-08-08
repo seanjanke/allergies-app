@@ -215,10 +215,6 @@ class FoodController extends GetxController {
   void addFoodFromBarcode(String barcode, BuildContext context) async {
     OpenFoodFactsApi.fetchAndPrintProduct(barcode, context).then((food) {
       if (food != null) {
-        playSound();
-        addFood(food);
-        scanList.add(food);
-
         List<String> commonAllergens = food.allergens.where((allergy) {
           return allergiesList.any((controllerAllergy) =>
               controllerAllergy.name(context).toLowerCase() ==
@@ -231,6 +227,9 @@ class FoodController extends GetxController {
           traces: food.traces,
           ingredients: food.ingredients,
         );
+
+        addFood(food);
+        scanList.add(food);
       } else {
         print('Food not found.');
       }

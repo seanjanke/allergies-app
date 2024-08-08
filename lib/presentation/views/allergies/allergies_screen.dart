@@ -26,12 +26,10 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
   List<Allergy> allergies = allAllergies;
 
   void searchAllergene(String searchTerm) {
-    final suggestions = allAllergies
-        .where(
-          (allergene) =>
-              allergene.allergeneType.name.contains(searchTerm.toLowerCase()),
-        )
-        .toList();
+    final suggestions = allAllergies.where((allergy) {
+      final localizedAllergyName = allergy.name(context).toLowerCase();
+      return localizedAllergyName.contains(searchTerm.toLowerCase());
+    }).toList();
 
     setState(() {
       allergies = suggestions;
