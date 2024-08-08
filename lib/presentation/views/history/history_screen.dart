@@ -6,9 +6,11 @@ import 'package:allergies/data/services/food_service.dart';
 import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:beamer/beamer.dart';
+import 'package:el_tooltip/el_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +25,7 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   FoodController foodController = Get.find();
+  ElTooltipController tooltipController = ElTooltipController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,36 +37,83 @@ class _HistoryScreenState extends State<HistoryScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                OpenFoodFactsApi.fetchAndPrintProduct("4337256771726", context)
-                    .then((food) {
-                  if (food != null) {
-                    foodController.addFood(food);
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    OpenFoodFactsApi.fetchAndPrintProduct(
+                            "4337256771726", context)
+                        .then((food) {
+                      if (food != null) {
+                        foodController.addFood(food);
 
-                    List<String> commonAllergens =
-                        food.allergens.where((allergy) {
-                      return foodController.allergiesList.any(
-                          (controllerAllergy) =>
-                              controllerAllergy.name(context).toLowerCase() ==
-                              allergy.toLowerCase());
-                    }).toList();
+                        List<String> commonAllergens =
+                            food.allergens.where((allergy) {
+                          return foodController.allergiesList.any(
+                              (controllerAllergy) =>
+                                  controllerAllergy
+                                      .name(context)
+                                      .toLowerCase() ==
+                                  allergy.toLowerCase());
+                        }).toList();
 
-                    foodController.selectedFood.value = Food(
-                      name: food.name,
-                      allergens: commonAllergens,
-                      traces: food.traces,
-                      ingredients: food.ingredients,
-                    );
-                  } else {
-                    print('Food not found.');
-                  }
-                });
-              },
-              child: Text(
-                LocaleData.historyTitle.getString(context),
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
+                        foodController.selectedFood.value = Food(
+                          name: food.name,
+                          allergens: commonAllergens,
+                          traces: food.traces,
+                          ingredients: food.ingredients,
+                        );
+                      } else {
+                        print('Food not found.');
+                      }
+                    });
+                  },
+                  child: Text(
+                    LocaleData.historyTitle.getString(context),
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: foodController.foodsList.isNotEmpty,
+                    child: ElTooltip(
+                      controller: tooltipController,
+                      content: GestureDetector(
+                        onTap: () {
+                          foodController.clearFoodsList();
+                          tooltipController.hide();
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.solidTrashCan,
+                              size: 18,
+                            ),
+                            smallGap,
+                            Text(
+                              LocaleData.deleteHistory.getString(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                      distance: 16,
+                      padding: mediumPadding,
+                      color: Theme.of(context).colorScheme.surface,
+                      position: ElTooltipPosition.leftStart,
+                      child: FaIcon(
+                        FontAwesomeIcons.ellipsisVertical,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             mediumGap,
             Expanded(
@@ -93,7 +143,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Theme.of(context).scaffoldBackgroundColor,
                       padding: EdgeInsets.zero,
                       groupSeparatorBuilder: (Food food) => Padding(
-                        padding: smallPadding,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           (() {
                             DateTime now = DateTime.now();

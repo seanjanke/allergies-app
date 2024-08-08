@@ -55,6 +55,7 @@ mixin LocaleData {
   static const String allergenesAndTraces = "allergenesAndTraces";
   static const String productInformation = "productInformation";
   static const String unknown = "unknown";
+  static const String deleteHistory = "deleteHistory";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -104,6 +105,7 @@ mixin LocaleData {
     allergenesAndTraces: "Allergenes & Traces",
     productInformation: "Productinformation",
     unknown: "Unknown",
+    deleteHistory: "Delete History",
   };
 
   static const Map<String, dynamic> DE = {
@@ -154,6 +156,7 @@ mixin LocaleData {
     allergenesAndTraces: "Allergene & Spuren",
     productInformation: "Produktinformationen",
     unknown: "Unbekannt",
+    deleteHistory: "Verlauf löschen",
   };
 
   static const Map<String, dynamic> ES = {
@@ -204,6 +207,7 @@ mixin LocaleData {
     allergenesAndTraces: "Alérgenos & Huellas",
     productInformation: "Información sobre el producto",
     unknown: "Desconocido",
+    deleteHistory: "Borrar historial",
   };
 
   static const Map<String, dynamic> FR = {
@@ -254,5 +258,6 @@ mixin LocaleData {
     allergenesAndTraces: "Alergène & Traces",
     productInformation: "Informations sur le produit",
     unknown: "Inconnu",
+    deleteHistory: "Supprimer l'historique",
   };
 }
