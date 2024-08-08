@@ -75,7 +75,7 @@ class _FoodListTileState extends State<FoodListTile> {
             decoration: BoxDecoration(
               color: widget.allergenes.isEmpty
                   ? success500.withOpacity(0.6)
-                  : warning500.withOpacity(0.8),
+                  : error500.withOpacity(0.8),
               borderRadius: smallCirular,
             ),
             child: Center(

@@ -64,7 +64,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                 ),
               ],
             ),
-            largeGap,
+            extraLargeGap,
             TextFormField(
               controller: searchController,
               style: Theme.of(context).textTheme.bodyLarge,
@@ -103,7 +103,7 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
               },
               onChanged: searchAllergene,
             ),
-            largeGap,
+            extraLargeGap,
             Flexible(
               child: allergies.isEmpty
                   ? Center(

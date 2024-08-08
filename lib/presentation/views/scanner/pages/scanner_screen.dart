@@ -282,7 +282,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
     this.qrViewController = qrViewController;
     qrViewController.scannedDataStream.listen((qrData) async {
       final String? qrCode = qrData.code;
+
       if (!foodController.qrCodesList.contains(qrCode)) {
+        qrViewController.pauseCamera();
+
         foodController.qrCodesList.add(qrCode!);
         foodController.addFoodFromBarcode(qrCode, context);
 
@@ -292,6 +295,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
           showSuccessToast();
           showHapticFeedback();
         }
+
+        Future.delayed(const Duration(seconds: 2), () {
+          qrViewController.resumeCamera();
+        });
       } else {
         showAlreadyScannedToast();
       }

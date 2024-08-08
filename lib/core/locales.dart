@@ -54,6 +54,7 @@ mixin LocaleData {
   static const String noTracesFound = "noTracesFound";
   static const String allergenesAndTraces = "allergenesAndTraces";
   static const String productInformation = "productInformation";
+  static const String unknown = "unknown";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -102,6 +103,7 @@ mixin LocaleData {
     noTracesFound: "No Traces found",
     allergenesAndTraces: "Allergenes & Traces",
     productInformation: "Productinformation",
+    unknown: "Unknown",
   };
 
   static const Map<String, dynamic> DE = {
@@ -151,6 +153,7 @@ mixin LocaleData {
     noTracesFound: "Keine Spuren gefunden",
     allergenesAndTraces: "Allergene & Spuren",
     productInformation: "Produktinformationen",
+    unknown: "Unbekannt",
   };
 
   static const Map<String, dynamic> ES = {
@@ -200,6 +203,7 @@ mixin LocaleData {
     noTracesFound: "No se han encontrado rastros",
     allergenesAndTraces: "Alérgenos & Huellas",
     productInformation: "Información sobre el producto",
+    unknown: "Desconocido",
   };
 
   static const Map<String, dynamic> FR = {
@@ -207,6 +211,7 @@ mixin LocaleData {
     bottomNavItem2Titel: "Histoire",
     bottomNavItem3Titel: "Profil",
     scanResultInfo: "Aucun alergène",
+    noAllergies: "Pas d'allergies",
     historyTitle: "Histoire",
     today: "Aujourd'hui",
     yesterday: "Hier",
@@ -248,5 +253,6 @@ mixin LocaleData {
     noTracesFound: "Aucune trace trouvée",
     allergenesAndTraces: "Alergène & Traces",
     productInformation: "Informations sur le produit",
+    unknown: "Inconnu",
   };
 }

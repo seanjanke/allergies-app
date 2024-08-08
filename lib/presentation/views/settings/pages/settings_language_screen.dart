@@ -172,7 +172,7 @@ class _SettingsLanguageScreenState extends State<SettingsLanguageScreen> {
                 },
               ),
             ),
-            mediumGap,
+            largeGap,
             Center(
               child: Text(
                 LocaleData.moreLanguagesSoon.getString(context),

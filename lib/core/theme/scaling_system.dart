@@ -9,10 +9,9 @@ BorderRadius largeCirular = BorderRadius.circular(16);
 //GAP
 const extraSmallGap = Gap(4);
 const smallGap = Gap(8);
-const mediumGap = Gap(16);
-const largeGap = Gap(32);
-const large2Gap = Gap(64);
-const large3Gap = Gap(96);
+const mediumGap = Gap(12);
+const largeGap = Gap(16);
+const extraLargeGap = Gap(32);
 
 //PADDING
 const extraSmallPadding = EdgeInsets.all(4);

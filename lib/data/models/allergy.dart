@@ -80,3 +80,44 @@ class Allergy {
     }
   }
 }
+
+AllergeneType? allergeneTypeFromString(String allergeneString) {
+  switch (allergeneString.toLowerCase()) {
+    case 'lactose':
+      return AllergeneType.lactose;
+    case 'nuts':
+      return AllergeneType.nuts;
+    case 'gluten':
+      return AllergeneType.gluten;
+    case 'shellfish':
+      return AllergeneType.shellfish;
+    case 'eggs':
+      return AllergeneType.eggs;
+    case 'soy':
+      return AllergeneType.soy;
+    case 'wheat':
+      return AllergeneType.wheat;
+    case 'fish':
+      return AllergeneType.fish;
+    case 'peanuts':
+      return AllergeneType.peanuts;
+    case 'sesame':
+      return AllergeneType.sesame;
+    case 'fructose':
+      return AllergeneType.fructose;
+    default:
+      return null;
+  }
+}
+
+String getLocalizedAllergyName(BuildContext context, String allergeneString) {
+  print("1: $allergeneString");
+  final AllergeneType? allergeneType = allergeneTypeFromString(allergeneString);
+
+  if (allergeneType != null) {
+    final Allergy allergy = Allergy(allergeneType: allergeneType);
+    return allergy.name(context);
+  } else {
+    return allergeneString;
+  }
+}

@@ -213,7 +213,7 @@ class FoodController extends GetxController {
   }
 
   void addFoodFromBarcode(String barcode, BuildContext context) async {
-    OpenFoodFactsApi.fetchAndPrintProduct(barcode).then((food) {
+    OpenFoodFactsApi.fetchAndPrintProduct(barcode, context).then((food) {
       if (food != null) {
         playSound();
         addFood(food);

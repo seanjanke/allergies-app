@@ -42,7 +42,7 @@ class FoodDetailScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
-                    largeGap,
+                    extraLargeGap,
                     Text(
                       LocaleData.allergenesAndTraces.getString(context),
                       style: Theme.of(context).textTheme.headlineSmall,
@@ -87,6 +87,7 @@ class FoodDetailScreen extends StatelessWidget {
                             )
                           : ListView.builder(
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller
                                   .selectedFood.value.allergens.length,
                               itemBuilder: (context, index) {
@@ -106,12 +107,12 @@ class FoodDetailScreen extends StatelessWidget {
                                       Container(
                                         padding: smallPadding,
                                         decoration: BoxDecoration(
-                                          color: warning100,
+                                          color: error100,
                                           borderRadius: smallCirular,
                                         ),
                                         child: const Icon(
                                           Icons.warning,
-                                          color: warning500,
+                                          color: error500,
                                         ),
                                       ),
                                       mediumGap,
@@ -128,7 +129,7 @@ class FoodDetailScreen extends StatelessWidget {
                               },
                             ),
                     ),
-                    smallGap,
+                    mediumGap,
                     Obx(
                       () => controller.selectedFood.value.traces.isEmpty
                           ? Container(
@@ -168,6 +169,7 @@ class FoodDetailScreen extends StatelessWidget {
                             )
                           : ListView.builder(
                               shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount:
                                   controller.selectedFood.value.traces.length,
                               itemBuilder: (context, index) {
@@ -175,7 +177,7 @@ class FoodDetailScreen extends StatelessWidget {
                                   padding: largePadding,
                                   margin: const EdgeInsets.only(bottom: 12),
                                   decoration: BoxDecoration(
-                                    color: warning500.withOpacity(0.8),
+                                    color: warning500.withOpacity(0.4),
                                     border:
                                         Border.all(color: warning500, width: 2),
                                     borderRadius: mediumCirular,
@@ -208,7 +210,7 @@ class FoodDetailScreen extends StatelessWidget {
                                 );
                               }),
                     ),
-                    largeGap,
+                    extraLargeGap,
                     Text(
                       LocaleData.ingredients.getString(context),
                       style: Theme.of(context).textTheme.headlineSmall,

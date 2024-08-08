@@ -50,9 +50,13 @@ const success100 = Color.fromARGB(255, 229, 255, 212);
 const success500 = Color.fromARGB(255, 14, 215, 34);
 const success900 = Color.fromARGB(255, 33, 76, 3);
 
-const warning100 = Color.fromARGB(255, 255, 216, 212);
-const warning500 = Color.fromARGB(255, 218, 52, 33);
-const warning900 = Color.fromARGB(255, 76, 11, 3);
+const warning100 = Color.fromARGB(255, 241, 239, 200);
+const warning500 = Color.fromARGB(255, 246, 238, 7);
+const warning900 = Color.fromARGB(255, 88, 84, 1);
+
+const error100 = Color.fromARGB(255, 255, 216, 212);
+const error500 = Color.fromARGB(255, 218, 52, 33);
+const error900 = Color.fromARGB(255, 76, 11, 3);
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
