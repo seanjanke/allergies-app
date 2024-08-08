@@ -24,7 +24,7 @@ class FoodDetailScreen extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(controller.selectedFood.value.name.value.capitalize!),
+        title: Text(LocaleData.productInformation.getString(context)),
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),

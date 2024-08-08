@@ -1,5 +1,4 @@
 import 'package:allergies/core/locales.dart';
-import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/scanner/pages/scanner_screen.dart';

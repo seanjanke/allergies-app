@@ -3,6 +3,7 @@ import 'package:allergies/data/models/food.dart';
 import 'package:allergies/data/services/food_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -211,12 +212,25 @@ class FoodController extends GetxController {
     }
   }
 
-  void addFoodFromBarcode(String barcode) async {
+  void addFoodFromBarcode(String barcode, BuildContext context) async {
     OpenFoodFactsApi.fetchAndPrintProduct(barcode).then((food) {
       if (food != null) {
         playSound();
         addFood(food);
         scanList.add(food);
+
+        List<String> commonAllergens = food.allergens.where((allergy) {
+          return allergiesList.any((controllerAllergy) =>
+              controllerAllergy.name(context).toLowerCase() ==
+              allergy.toLowerCase());
+        }).toList();
+
+        selectedFood.value = Food(
+          name: food.name,
+          allergens: commonAllergens,
+          traces: food.traces,
+          ingredients: food.ingredients,
+        );
       } else {
         print('Food not found.');
       }

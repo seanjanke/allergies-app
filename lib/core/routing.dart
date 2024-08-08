@@ -1,4 +1,3 @@
-import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/presentation/views/allergies/allergies_screen.dart';
 import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/views/history/history_screen.dart';

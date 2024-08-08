@@ -2,11 +2,11 @@ import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
+import 'package:allergies/presentation/views/allergies/components/allergies_list_tile.dart';
 import 'package:allergies/presentation/views/settings/components/settings_list_tile.dart';
 import 'package:allergies/presentation/views/settings/settings_screen.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -26,19 +26,16 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
   List<Allergy> allergies = allAllergies;
 
   void searchAllergene(String searchTerm) {
-    /*
     final suggestions = allAllergies
         .where(
           (allergene) =>
               allergene.allergeneType.name.contains(searchTerm.toLowerCase()),
         )
         .toList();
-        
 
     setState(() {
       allergies = suggestions;
     });
-    */
   }
 
   @override
@@ -124,87 +121,17 @@ class _AllergiesScreenState extends State<AllergiesScreen> {
                       shrinkWrap: true,
                       itemCount: allergies.length,
                       itemBuilder: (context, index) {
-                        return Obx(() {
-                          bool isActive = false;
-
-                          for (Allergy item in foodController.allergiesList) {
-                            if (item.allergeneType ==
-                                allergies[index].allergeneType) {
-                              isActive = true;
-                            }
+                        bool isActive = false;
+                        for (Allergy item in foodController.allergiesList) {
+                          if (item.allergeneType ==
+                              allergies[index].allergeneType) {
+                            isActive = true;
                           }
-
-                          return GestureDetector(
-                            onTap: () {
-                              if (isActive) {
-                                foodController.removeAllergy(allergies[index]);
-                              } else {
-                                foodController.addAllergy(allergies[index]);
-                              }
-                            },
-                            child: Container(
-                              padding: smallPadding,
-                              margin: const EdgeInsets.only(bottom: 12),
-                              decoration: BoxDecoration(
-                                color: isActive
-                                    ? primary.withOpacity(0.4)
-                                    : Theme.of(context).colorScheme.surface,
-                                borderRadius: mediumCirular,
-                                border: Border.all(
-                                  color: isActive
-                                      ? primary
-                                      : Theme.of(context).colorScheme.surface,
-                                  width: 2,
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: mediumCirular,
-                                          child: Image.asset(
-                                            allergies[index].imagePath!,
-                                            width: 80,
-                                          ),
-                                        ),
-                                        mediumGap,
-                                        Expanded(
-                                          child: Text(
-                                            allergies[index].name(context),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Visibility(
-                                    visible: isActive,
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 16,
-                                        right: 8,
-                                      ),
-                                      child: Icon(
-                                        Icons.check_circle,
-                                        color: primary,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        });
+                        }
+                        return AllergiesListTile(
+                          allergy: allergies[index],
+                          isActive: isActive,
+                        );
                       },
                     ),
             ),

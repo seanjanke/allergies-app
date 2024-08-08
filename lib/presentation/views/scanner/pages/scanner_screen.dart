@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/controller/general_controller.dart';
+import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
 import 'package:allergies/presentation/widgets/food_list_tile.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -131,8 +133,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         qrViewController!.flipCamera();
-                                        foodController
-                                            .addFoodFromBarcode("21121234");
                                       },
                                       child: Container(
                                         padding: smallPadding,
@@ -284,7 +284,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
       final String? qrCode = qrData.code;
       if (!foodController.qrCodesList.contains(qrCode)) {
         foodController.qrCodesList.add(qrCode!);
-        foodController.addFoodFromBarcode(qrCode);
+        foodController.addFoodFromBarcode(qrCode, context);
+
+        Beamer.of(context).beamToNamed(FoodDetailScreen.routeName);
 
         if (generalController.useHapticFeedback.value == true) {
           showSuccessToast();

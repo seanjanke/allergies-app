@@ -53,6 +53,7 @@ mixin LocaleData {
   static const String traces = "traces";
   static const String noTracesFound = "noTracesFound";
   static const String allergenesAndTraces = "allergenesAndTraces";
+  static const String productInformation = "productInformation";
 
   static const Map<String, dynamic> EN = {
     bottomNavItem1Titel: "Scan",
@@ -100,6 +101,7 @@ mixin LocaleData {
     traces: "Traces",
     noTracesFound: "No Traces found",
     allergenesAndTraces: "Allergenes & Traces",
+    productInformation: "Productinformation",
   };
 
   static const Map<String, dynamic> DE = {
@@ -148,6 +150,7 @@ mixin LocaleData {
     traces: "Spuren",
     noTracesFound: "Keine Spuren gefunden",
     allergenesAndTraces: "Allergene & Spuren",
+    productInformation: "Produktinformationen",
   };
 
   static const Map<String, dynamic> ES = {
@@ -196,6 +199,7 @@ mixin LocaleData {
     traces: "Huellas",
     noTracesFound: "No se han encontrado rastros",
     allergenesAndTraces: "Alérgenos & Huellas",
+    productInformation: "Información sobre el producto",
   };
 
   static const Map<String, dynamic> FR = {
@@ -243,5 +247,6 @@ mixin LocaleData {
     traces: "Traces",
     noTracesFound: "Aucune trace trouvée",
     allergenesAndTraces: "Alergène & Traces",
+    productInformation: "Informations sur le produit",
   };
 }
