@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/controller/general_controller.dart';
@@ -9,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:torch_light/torch_light.dart';
 
 import '../../../../core/theme/theme.dart';
 
@@ -21,11 +22,15 @@ class ScannerScreen extends StatefulWidget {
   State<ScannerScreen> createState() => _ScannerScreenState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen> {
+class _ScannerScreenState extends State<ScannerScreen>
+    with WidgetsBindingObserver {
   FoodController foodController = Get.find();
   GeneralController generalController = Get.find();
 
-  final MultiSplitViewController _controller = MultiSplitViewController();
+  final MultiSplitViewController splitViewController =
+      MultiSplitViewController();
+
+  StreamSubscription<Object?>? subscription;
 
   MobileScannerController qrController = MobileScannerController(
     detectionSpeed: DetectionSpeed.noDuplicates,
@@ -41,16 +46,60 @@ class _ScannerScreenState extends State<ScannerScreen> {
   bool showFlashlight = false;
   bool showFrontcamera = false;
 
+  void handleBarcode(capture) {
+    List<Barcode> barcodes = capture.barcodes;
+
+    for (var barcode in barcodes) {
+      print("barcode: ${barcode.rawValue}");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+    subscription = qrController.barcodes.listen(handleBarcode);
+
+    unawaited(qrController.start());
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final deviceHeight = MediaQuery.of(context).size.height;
-      _controller.areas = [
+      splitViewController.areas = [
         Area(size: deviceHeight * 0.7, min: deviceHeight * 0.5),
         Area(size: deviceHeight * 0.3),
       ];
     });
+  }
+
+  @override
+  Future<void> dispose() async {
+    WidgetsBinding.instance.removeObserver(this);
+    unawaited(subscription?.cancel());
+    subscription = null;
+    super.dispose();
+    await qrController.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!qrController.value.isInitialized) {
+      return;
+    }
+
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        subscription = qrController.barcodes.listen(handleBarcode);
+        unawaited(qrController.start());
+      case AppLifecycleState.inactive:
+        unawaited(subscription?.cancel());
+        subscription = null;
+        unawaited(qrController.stop());
+    }
   }
 
   @override
@@ -76,7 +125,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 ),
                 child: MultiSplitView(
                   axis: Axis.vertical,
-                  controller: _controller,
+                  controller: splitViewController,
                   pushDividers: false,
                   builder: (BuildContext context, Area area) {
                     if (area.index == 0) {
@@ -98,13 +147,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                   height: double.infinity,
                                   child: MobileScanner(
                                     controller: qrController,
-                                    onDetect: (capture) {
-                                      List<Barcode> barcodes = capture.barcodes;
-
-                                      for (var barcode in barcodes) {
-                                        print("barcode: ${barcode.rawValue}");
-                                      }
-                                    },
+                                    onDetect: handleBarcode,
                                   ),
                                 ),
                               ),
