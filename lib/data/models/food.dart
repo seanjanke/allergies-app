@@ -5,6 +5,7 @@ class Food {
   final List<String> allergens;
   final String ingredients;
   final List<String> traces;
+  final RxString brand;
   final DateTime? uploadTime;
 
   const Food({
@@ -12,6 +13,7 @@ class Food {
     required this.allergens,
     required this.ingredients,
     required this.traces,
+    required this.brand,
     this.uploadTime,
   });
 

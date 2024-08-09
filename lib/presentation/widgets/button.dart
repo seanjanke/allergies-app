@@ -24,7 +24,7 @@ class Button extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: smallCirular,
+            borderRadius: largeCirular,
           ),
           child: Center(
             child: Text(

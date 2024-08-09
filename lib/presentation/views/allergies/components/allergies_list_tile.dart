@@ -73,14 +73,14 @@ class _AllergiesListTileState extends State<AllergiesListTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: mediumCirular,
-                    child: Image.asset(
-                      widget.allergy.imagePath!,
-                      width: 80,
-                    ),
-                  ),
-                  mediumGap,
+                  // ClipRRect(
+                  //   borderRadius: mediumCirular,
+                  //   child: Image.asset(
+                  //     widget.allergy.imagePath!,
+                  //     width: 80,
+                  //   ),
+                  // ),
+                  // mediumGap,
                   Expanded(
                     child: Text(
                       widget.allergy.name(context),

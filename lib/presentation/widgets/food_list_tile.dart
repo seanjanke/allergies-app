@@ -48,15 +48,15 @@ class _FoodListTileState extends State<FoodListTile> {
                 ),
                 extraSmallGap,
                 if (widget.allergenes.isNotEmpty) ...[
-                  Row(
-                    children: [
-                      for (var i = 0; i < widget.allergenes.length; i++)
-                        Text(
-                          i < widget.allergenes.length - 1
-                              ? "${widget.allergenes[i].capitalize!}, "
-                              : widget.allergenes[i].capitalize!,
+                  Text(
+                    widget.allergenes
+                        .map((allergen) => allergen.capitalize!)
+                        .join(', '),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
-                    ],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ] else ...[
                   Text(
@@ -69,6 +69,7 @@ class _FoodListTileState extends State<FoodListTile> {
               ],
             ),
           ),
+          mediumGap,
           Container(
             width: 48,
             height: 48,

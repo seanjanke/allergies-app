@@ -11,7 +11,9 @@ class FoodController extends GetxController {
   RxString userId = "".obs;
   RxList<Food> foodsList = <Food>[].obs;
   RxList<Food> scanList = <Food>[].obs;
-  RxList<Allergy> allergiesList = <Allergy>[].obs;
+  RxList<Allergy> allergiesList = <Allergy>[
+    Allergy(allergeneType: AllergeneType.nuts),
+  ].obs;
   RxBool foodAlreadyExistant = false.obs;
   RxBool allergyAlreadyExistant = false.obs;
   RxList<String> qrCodesList = <String>[].obs;
@@ -20,6 +22,7 @@ class FoodController extends GetxController {
     name: RxString(""),
     allergens: [],
     traces: [],
+    brand: RxString(""),
     ingredients: "",
   ).obs;
 
@@ -70,6 +73,7 @@ class FoodController extends GetxController {
       'id': 'id',
       'name': food.name.value,
       'timestamp': Timestamp.fromDate(food.uploadTime!),
+      'brand': food.brand.value,
       'ingredients': food.ingredients,
     });
 
@@ -101,6 +105,7 @@ class FoodController extends GetxController {
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         String foodName = doc['name'].toLowerCase();
         Timestamp uploadTime = doc['timestamp'];
+        String brand = doc['brand'];
         DateTime uploadDateTime = uploadTime.toDate();
 
         QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -144,6 +149,7 @@ class FoodController extends GetxController {
             allergens: allergenesList,
             uploadTime: uploadDateTime,
             traces: tracesList,
+            brand: RxString(brand.capitalizeFirst!),
             ingredients: ingredients,
           ),
         );
@@ -227,27 +233,27 @@ class FoodController extends GetxController {
   }
 
   void addFoodFromBarcode(String barcode, BuildContext context) async {
-    OpenFoodFactsApi.fetchAndPrintProduct(barcode, context).then((food) {
+    OpenFoodFactsApi.fetchFood(barcode, context).then((food) {
       if (food != null) {
-        List<String> commonAllergens = food.allergens.where((allergy) {
-          return allergiesList.any((controllerAllergy) =>
-              controllerAllergy.name(context).toLowerCase() ==
-              allergy.toLowerCase());
-        }).toList();
-
-        selectedFood.value = Food(
+        final Food foodResult = Food(
           name: food.name,
-          allergens: commonAllergens,
+          allergens: food.allergens,
           traces: food.traces,
+          brand: food.brand,
+          uploadTime: DateTime.now(),
           ingredients: food.ingredients,
         );
 
-        addFood(food);
-        scanList.add(food);
+        selectedFood.value = foodResult;
+
+        addFood(foodResult);
+        scanList.add(foodResult);
       } else {
+        //TODO: show on screen
         print('Food not found.');
       }
     }).catchError((error) {
+      //TODO: show on screen
       print('Failed to fetch food information: $error');
     });
   }

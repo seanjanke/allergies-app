@@ -41,6 +41,9 @@ List<Allergy> allAllergies = const [
     allergeneType: AllergeneType.eggs,
     imagePath: "assets/images/eggs_asset-2.png",
   ),
+  Allergy(
+    allergeneType: AllergeneType.nuts,
+  ),
 ];
 
 class Allergy {
@@ -111,8 +114,16 @@ AllergeneType? allergeneTypeFromString(String allergeneString) {
 }
 
 String getLocalizedAllergyName(BuildContext context, String allergeneString) {
-  print("1: $allergeneString");
-  final AllergeneType? allergeneType = allergeneTypeFromString(allergeneString);
+  String allergeneStringWithoutCountryCode = "";
+
+  if (allergeneString.contains(":")) {
+    allergeneStringWithoutCountryCode = allergeneString.split(':').last;
+  } else {
+    allergeneStringWithoutCountryCode = allergeneString;
+  }
+
+  final AllergeneType? allergeneType =
+      allergeneTypeFromString(allergeneStringWithoutCountryCode);
 
   if (allergeneType != null) {
     final Allergy allergy = Allergy(allergeneType: allergeneType);

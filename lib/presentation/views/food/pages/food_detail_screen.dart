@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
@@ -42,6 +44,12 @@ class FoodDetailScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
+                    Obx(
+                      () => Text(
+                        controller.selectedFood.value.brand.value.capitalize!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
                     extraLargeGap,
                     Text(
                       LocaleData.allergenesAndTraces.getString(context),
@@ -52,6 +60,7 @@ class FoodDetailScreen extends StatelessWidget {
                       () => controller.selectedFood.value.allergens.isEmpty
                           ? Container(
                               width: double.infinity,
+                              margin: const EdgeInsets.only(bottom: 12),
                               padding: largePadding,
                               decoration: BoxDecoration(
                                 color: success500.withOpacity(0.4),
@@ -93,27 +102,25 @@ class FoodDetailScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return Container(
                                   margin: const EdgeInsets.only(bottom: 12),
-                                  padding: mediumPadding,
+                                  padding: largePadding,
                                   decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
+                                    color: error500.withOpacity(0.4),
                                     borderRadius: mediumCirular,
+                                    border: Border.all(
+                                      width: 2,
+                                      color: error500,
+                                    ),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        padding: smallPadding,
-                                        decoration: BoxDecoration(
-                                          color: error100,
-                                          borderRadius: smallCirular,
-                                        ),
-                                        child: const Icon(
-                                          Icons.warning,
-                                          color: error500,
-                                        ),
+                                      Text(
+                                        "👎",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
                                       ),
                                       mediumGap,
                                       Text(
@@ -129,7 +136,6 @@ class FoodDetailScreen extends StatelessWidget {
                               },
                             ),
                     ),
-                    mediumGap,
                     Obx(
                       () => controller.selectedFood.value.traces.isEmpty
                           ? Container(
@@ -228,6 +234,7 @@ class FoodDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
+            largeGap,
             Button(
               label: LocaleData.close.getString(context),
               color: primary,

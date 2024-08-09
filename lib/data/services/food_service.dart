@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:allergies/core/locales.dart';
+import 'package:allergies/data/controller/food_controller.dart';
 import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,12 @@ class OpenFoodFactsApi {
   static const String _baseUrl =
       'https://world.openfoodfacts.org/api/v0/product/';
 
-  static Future<Food?> fetchAndPrintProduct(
+  static Future<Food?> fetchFood(
     String barcode,
     BuildContext context,
   ) async {
     FlutterLocalization localization = FlutterLocalization.instance;
+    final FoodController foodController = Get.find();
     final response = await http.get(Uri.parse('$_baseUrl$barcode.json'));
 
     String currentLanguage = localization.currentLocale!.languageCode;
@@ -27,6 +29,12 @@ class OpenFoodFactsApi {
         final productInfo = productData['product'];
 
         String productName = "";
+        String ingredients = "";
+        List<String> allergies = [];
+        List<String> traces = [];
+        String brand = "";
+
+        //get product name
 
         if (currentLanguage == "de" &&
             productInfo.containsKey('product_name_de') &&
@@ -44,29 +52,50 @@ class OpenFoodFactsApi {
           productName = productInfo['product_name'];
         }
 
-        List<String> allergies = [];
-        if (productInfo.containsKey('allergens_tags')) {
-          allergies = List<String>.from(productInfo['allergens_tags']);
-        }
+        //get allergens from tags
 
-        List<String> allergiesList = [];
-        for (String allergyItem in allergies) {
-          for (AllergeneType allergy in AllergeneType.values) {
-            if (allergyItem.contains(allergy.name.toLowerCase())) {
-              String allergyName = getLocalizedAllergyName(
-                context,
-                allergy.name.toLowerCase(),
-              );
-              if (allergyName != "") {
-                allergiesList.add(allergyName);
-              }
-            } else {
-              // print("${allergy.name.toLowerCase()} is not included");
+        if (productInfo.containsKey('allergens_tags')) {
+          List<String> allAllergiesFromTags =
+              List<String>.from(productInfo['allergens_tags']);
+
+          for (String allergy in allAllergiesFromTags) {
+            String allergyName = getLocalizedAllergyName(
+              context,
+              allergy.toLowerCase(),
+            );
+
+            if (!allergies.contains(allergyName)) {
+              allergies.add(allergyName);
             }
           }
         }
 
-        String ingredients = "";
+        //get allergens from ingredients
+
+        if (productInfo.containsKey('allergens_from_ingredients') &&
+            productInfo['allergens_from_ingredients'] != "") {
+          String ingredientsString = productInfo['allergens_from_ingredients'];
+
+          List<String> allAllergensFromIngredients =
+              ingredientsString.split(',').map((item) => item.trim()).toList();
+
+          if (allAllergensFromIngredients.isNotEmpty) {
+            for (String allergen in allAllergensFromIngredients) {
+              String allergyName = getLocalizedAllergyName(
+                context,
+                allergen.toLowerCase(),
+              );
+
+              if (allergyName != "" && !allergies.contains(allergyName)) {
+                allergies.add(
+                  allergyName,
+                );
+              }
+            }
+          }
+        }
+
+        //get ingredients
 
         if (currentLanguage == "de") {
           if (productInfo.containsKey('ingredients_text_de')) {
@@ -110,25 +139,23 @@ class OpenFoodFactsApi {
           }
         }
 
-        List<String> traces = [];
+        //get traces from tags
+
         if (productInfo.containsKey('traces_tags') &&
             productInfo['traces_tags'] != "") {
-          for (AllergeneType allergy in AllergeneType.values) {
-            for (String trace in productInfo['traces_tags']) {
-              if (trace.contains(allergy.name.toLowerCase())) {
-                String allergyName = getLocalizedAllergyName(
-                  context,
-                  allergy.name.toLowerCase(),
-                );
+          for (String trace in productInfo['traces_tags']) {
+            String traceName = getLocalizedAllergyName(
+              context,
+              trace.toLowerCase(),
+            );
 
-                if (allergyName != "") {
-                  traces.add(allergyName);
-                }
-                log("trace: $allergyName");
-              }
+            if (traceName != "" && !traces.contains(traceName)) {
+              traces.add(traceName);
             }
           }
         }
+
+        //get traces from ingredients
 
         if (productInfo.containsKey('traces_from_ingredients') &&
             productInfo['traces_from_ingredients'] != "") {
@@ -137,34 +164,80 @@ class OpenFoodFactsApi {
 
           if (allTracesFromIngredients.isNotEmpty) {
             for (String trace in allTracesFromIngredients) {
-              if (!traces.contains(trace)) {
-                String traceName = getLocalizedAllergyName(
-                  context,
-                  trace.toLowerCase(),
-                );
+              String traceName = getLocalizedAllergyName(
+                context,
+                trace.toLowerCase(),
+              );
 
-                if (traceName != "") {
-                  traces.add(
-                    traceName,
-                  );
-                }
+              if (traceName != "" && !traces.contains(traceName)) {
+                traces.add(traceName);
               }
+            }
+          }
+        }
+
+        //get brand
+
+        if (productInfo.containsKey('brands') && productInfo['brands'] != "") {
+          brand = productInfo['brands'];
+          print("brand found: $brand");
+        }
+
+        //print allergies
+
+        log("final allergies: ");
+        for (String allergy in allergies) {
+          log(allergy);
+        }
+
+        //print traces
+
+        log("final traces: ");
+        for (String trace in traces) {
+          log(trace);
+        }
+
+        List<String> commonAllergens = [];
+        List<String> commonTraces = [];
+
+        for (Allergy userAllergy in foodController.allergiesList) {
+          for (String foodAllergy in allergies) {
+            if (userAllergy.allergeneType.name.contains(foodAllergy)) {
+              String allergyName =
+                  getLocalizedAllergyName(context, foodAllergy.toLowerCase());
+
+              print("common allergen found: $allergyName");
+              commonAllergens.add(allergyName);
+            }
+          }
+        }
+
+        for (Allergy userAllergy in foodController.allergiesList) {
+          for (String foodTrace in traces) {
+            if (userAllergy.allergeneType.name.contains(foodTrace)) {
+              String traceName =
+                  getLocalizedAllergyName(context, foodTrace.toLowerCase());
+              print("common trace found: $traceName");
+              commonTraces.add(traceName);
             }
           }
         }
 
         return Food(
           name: RxString(productName),
-          allergens: allergiesList,
+          allergens: allergies,
           ingredients: ingredients,
           traces: traces,
+          brand: RxString(brand),
           uploadTime: DateTime.now(),
         );
       } else {
+        //TODO: show on screen
         print('Product not found.');
         return null;
       }
     } else {
+      //TODO: show on screen
       print('Failed to load product information.');
       return null;
     }

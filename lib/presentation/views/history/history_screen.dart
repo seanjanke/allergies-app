@@ -1,6 +1,7 @@
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
 import 'package:allergies/data/controller/food_controller.dart';
+import 'package:allergies/data/models/allergy.dart';
 import 'package:allergies/data/models/food.dart';
 import 'package:allergies/data/services/food_service.dart';
 import 'package:allergies/presentation/views/food/pages/food_detail_screen.dart';
@@ -8,7 +9,6 @@ import 'package:allergies/presentation/widgets/food_list_tile.dart';
 import 'package:beamer/beamer.dart';
 import 'package:el_tooltip/el_tooltip.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -43,32 +43,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    OpenFoodFactsApi.fetchAndPrintProduct(
-                            "4337256771726", context)
-                        .then((food) {
-                      if (food != null) {
-                        foodController.addFood(food);
-
-                        List<String> commonAllergens =
-                            food.allergens.where((allergy) {
-                          return foodController.allergiesList.any(
-                              (controllerAllergy) =>
-                                  controllerAllergy
-                                      .name(context)
-                                      .toLowerCase() ==
-                                  allergy.toLowerCase());
-                        }).toList();
-
-                        foodController.selectedFood.value = Food(
-                          name: food.name,
-                          allergens: commonAllergens,
-                          traces: food.traces,
-                          ingredients: food.ingredients,
-                        );
-                      } else {
-                        print('Food not found.');
-                      }
-                    });
+                    foodController.addFoodFromBarcode("4337256771726", context);
                   },
                   child: Text(
                     LocaleData.historyTitle.getString(context),
@@ -179,16 +154,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   controllerAllergy.name.toString() == allergy);
                         });
 
-                        List<String> commonAllergens =
-                            food.allergens.where((allergy) {
-                          return foodController.allergiesList.any(
-                              (controllerAllergy) =>
-                                  controllerAllergy
-                                      .name(context)
-                                      .toLowerCase() ==
-                                  allergy.toLowerCase());
-                        }).toList();
-
                         final String name = food.name.value.isNotEmpty
                             ? food.name.value
                             : LocaleData.unknown.getString(context);
@@ -197,8 +162,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           onTap: () {
                             foodController.selectedFood.value = Food(
                               name: food.name,
-                              allergens: commonAllergens,
+                              allergens: food.allergens,
                               traces: food.traces,
+                              brand: food.brand,
                               ingredients: food.ingredients,
                             );
 
@@ -207,7 +173,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           },
                           child: FoodListTile(
                             name: name,
-                            allergenes: commonAllergens,
+                            allergenes: food.allergens,
                             hasAllergies: hasAllergies,
                           ),
                         );
