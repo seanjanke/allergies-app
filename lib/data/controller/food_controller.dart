@@ -261,4 +261,86 @@ class FoodController extends GetxController {
   Future<void> playSound() async {
     await audioPlayer.play(AssetSource("audio/success_audio.mp3"));
   }
+
+  List<String> getCommonAllergies(
+      List<String> allergiesFromFood, BuildContext context) {
+    List<String> commonAllergens = [];
+
+    print("allergies from food: ");
+
+    for (String allergyItem in allergiesFromFood) {
+      print(allergyItem);
+    }
+
+    print("----");
+
+    print("allergies from user: ");
+
+    for (Allergy allergyItem in allergiesList) {
+      print(allergyItem.allergeneType.name);
+    }
+
+    print("----");
+
+    for (String foodAllergy in allergiesFromFood) {
+      for (Allergy userAllergy in allergiesList) {
+        if (foodAllergy
+            .toLowerCase()
+            .contains(userAllergy.allergeneType.name)) {
+          String allergyName =
+              getLocalizedAllergyName(context, foodAllergy.toLowerCase());
+
+          commonAllergens.add(allergyName);
+        }
+      }
+    }
+
+    print("common allergies:");
+
+    for (String item in commonAllergens) {
+      print(item);
+    }
+
+    return commonAllergens;
+  }
+
+  List<String> getCommonTraces(
+      List<String> tracesFromFood, BuildContext context) {
+    List<String> commonTraces = [];
+
+    print("traces from food: ");
+
+    for (String trace in tracesFromFood) {
+      print(trace);
+    }
+
+    print("----");
+
+    print("allergies from user: ");
+
+    for (Allergy allergy in allergiesList) {
+      print(allergy.allergeneType.name);
+    }
+
+    print("----");
+
+    for (String foodTrace in tracesFromFood) {
+      for (Allergy userAllergy in allergiesList) {
+        if (foodTrace.toLowerCase().contains(userAllergy.allergeneType.name)) {
+          String traceName =
+              getLocalizedAllergyName(context, foodTrace.toLowerCase());
+
+          commonTraces.add(traceName);
+        }
+      }
+    }
+
+    print("common traces:");
+
+    for (String item in commonTraces) {
+      print(item);
+    }
+
+    return commonTraces;
+  }
 }

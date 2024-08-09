@@ -59,13 +59,8 @@ class OpenFoodFactsApi {
               List<String>.from(productInfo['allergens_tags']);
 
           for (String allergy in allAllergiesFromTags) {
-            String allergyName = getLocalizedAllergyName(
-              context,
-              allergy.toLowerCase(),
-            );
-
-            if (!allergies.contains(allergyName)) {
-              allergies.add(allergyName);
+            if (!allergies.contains(allergy)) {
+              allergies.add(allergy);
             }
           }
         }
@@ -81,15 +76,8 @@ class OpenFoodFactsApi {
 
           if (allAllergensFromIngredients.isNotEmpty) {
             for (String allergen in allAllergensFromIngredients) {
-              String allergyName = getLocalizedAllergyName(
-                context,
-                allergen.toLowerCase(),
-              );
-
-              if (allergyName != "" && !allergies.contains(allergyName)) {
-                allergies.add(
-                  allergyName,
-                );
+              if (allergen != "" && !allergies.contains(allergen)) {
+                allergies.add(allergen);
               }
             }
           }
@@ -144,13 +132,8 @@ class OpenFoodFactsApi {
         if (productInfo.containsKey('traces_tags') &&
             productInfo['traces_tags'] != "") {
           for (String trace in productInfo['traces_tags']) {
-            String traceName = getLocalizedAllergyName(
-              context,
-              trace.toLowerCase(),
-            );
-
-            if (traceName != "" && !traces.contains(traceName)) {
-              traces.add(traceName);
+            if (trace != "" && !traces.contains(trace)) {
+              traces.add(trace);
             }
           }
         }
@@ -164,13 +147,8 @@ class OpenFoodFactsApi {
 
           if (allTracesFromIngredients.isNotEmpty) {
             for (String trace in allTracesFromIngredients) {
-              String traceName = getLocalizedAllergyName(
-                context,
-                trace.toLowerCase(),
-              );
-
-              if (traceName != "" && !traces.contains(traceName)) {
-                traces.add(traceName);
+              if (trace != "" && !traces.contains(trace)) {
+                traces.add(trace);
               }
             }
           }
@@ -195,32 +173,6 @@ class OpenFoodFactsApi {
         log("final traces: ");
         for (String trace in traces) {
           log(trace);
-        }
-
-        List<String> commonAllergens = [];
-        List<String> commonTraces = [];
-
-        for (Allergy userAllergy in foodController.allergiesList) {
-          for (String foodAllergy in allergies) {
-            if (userAllergy.allergeneType.name.contains(foodAllergy)) {
-              String allergyName =
-                  getLocalizedAllergyName(context, foodAllergy.toLowerCase());
-
-              print("common allergen found: $allergyName");
-              commonAllergens.add(allergyName);
-            }
-          }
-        }
-
-        for (Allergy userAllergy in foodController.allergiesList) {
-          for (String foodTrace in traces) {
-            if (userAllergy.allergeneType.name.contains(foodTrace)) {
-              String traceName =
-                  getLocalizedAllergyName(context, foodTrace.toLowerCase());
-              print("common trace found: $traceName");
-              commonTraces.add(traceName);
-            }
-          }
         }
 
         return Food(

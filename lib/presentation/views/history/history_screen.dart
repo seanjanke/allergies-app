@@ -158,12 +158,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ? food.name.value
                             : LocaleData.unknown.getString(context);
 
+                        final List<String> commonAllergies =
+                            foodController.getCommonAllergies(
+                          food.allergens,
+                          context,
+                        );
+
+                        final List<String> commonTraces =
+                            foodController.getCommonTraces(
+                          food.traces,
+                          context,
+                        );
+
                         return GestureDetector(
                           onTap: () {
                             foodController.selectedFood.value = Food(
                               name: food.name,
-                              allergens: food.allergens,
-                              traces: food.traces,
+                              allergens: commonAllergies,
+                              traces: commonTraces,
                               brand: food.brand,
                               ingredients: food.ingredients,
                             );
@@ -173,7 +185,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           },
                           child: FoodListTile(
                             name: name,
-                            allergenes: food.allergens,
+                            allergenes: commonAllergies,
                             hasAllergies: hasAllergies,
                           ),
                         );

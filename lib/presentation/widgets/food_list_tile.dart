@@ -1,11 +1,10 @@
 import 'package:allergies/core/locales.dart';
 import 'package:allergies/core/theme/theme.dart';
-import 'package:allergies/data/controller/food_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
 
-class FoodListTile extends StatefulWidget {
+class FoodListTile extends StatelessWidget {
   final String name;
   final bool hasAllergies;
   final List<String> allergenes;
@@ -14,13 +13,6 @@ class FoodListTile extends StatefulWidget {
       required this.name,
       required this.allergenes,
       required this.hasAllergies});
-
-  @override
-  State<FoodListTile> createState() => _FoodListTileState();
-}
-
-class _FoodListTileState extends State<FoodListTile> {
-  FoodController foodController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +33,15 @@ class _FoodListTileState extends State<FoodListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name.capitalize!,
+                  name.capitalize!,
                   style: Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
                 ),
                 extraSmallGap,
-                if (widget.allergenes.isNotEmpty) ...[
+                if (allergenes.isNotEmpty) ...[
                   Text(
-                    widget.allergenes
+                    allergenes
                         .map((allergen) => allergen.capitalize!)
                         .join(', '),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -74,14 +66,14 @@ class _FoodListTileState extends State<FoodListTile> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: widget.allergenes.isEmpty
+              color: allergenes.isEmpty
                   ? success500.withOpacity(0.6)
                   : error500.withOpacity(0.8),
               borderRadius: smallCirular,
             ),
             child: Center(
               child: Text(
-                widget.allergenes.isEmpty ? "👍" : "👎",
+                allergenes.isEmpty ? "👍" : "👎",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
